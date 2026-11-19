@@ -1,10 +1,11 @@
-// Consultas da recepcao: historico completo (passado, hoje e futuro) com filtros,
-// paginacao e acoes (janela compartilhada agendamento_acoes.js).
+// Consultas da recepcao: historico completo (passado, hoje e futuro) com busca,
+// periodo, situacao, paginacao e acoes (janela compartilhada agendamento_acoes.js).
+// A busca acha paciente (nome, codigo ou CPF), profissional e especialidade.
 
 var POR_PAGINA = 8;
 var e = Recepcao.escapar;
 
-var filtros = { busca: "", de: "", ate: "", tipo: "", medico: "", especialidade: "", status: "" };
+var filtros = { busca: "", de: "", ate: "", status: "" };
 var pagina = 1;
 
 var relogio = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
@@ -18,18 +19,43 @@ var iconesStatus = {
   "em-atendimento": '<path d="M4.8 2.6A2 2 0 1 0 3 6h3a2 2 0 1 0-1.8-3.4"/><path d="M4.5 6v5a5.5 5.5 0 0 0 11 0V6"/>'
 };
 
+// "cardiologia" acha "Cardiologia"; "joao" acha "João"
+function semAcento(texto) {
+  return String(texto).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+// o filtro "Canceladas e faltas" junta as duas situacoes
+function bateStatus(a) {
+  if (!filtros.status) return true;
+  if (filtros.status === "cancelada") return a.status === "cancelada" || a.status === "falta";
+  return a.status === filtros.status;
+}
+
+// transforma a opcao do seletor de periodo nas datas "de" e "ate"
+function aplicarPeriodo(opcao) {
+  var hoje = Recepcao.hoje();
+  function dia(n) { return Recepcao.iso(Recepcao.somarDias(hoje, n)); }
+  var periodos = {
+    recentes: [dia(-7), dia(14)], // ultima semana ate as proximas duas
+    hoje: [dia(0), dia(0)],
+    futuras: [dia(0), ""],
+    "30dias": [dia(-30), dia(0)],
+    tudo: ["", ""]
+  };
+  var p = periodos[opcao] || periodos.recentes;
+  filtros.de = p[0];
+  filtros.ate = p[1];
+}
+
 function filtrarSemStatus() {
-  var termo = filtros.busca;
+  var termo = semAcento(filtros.busca);
   var numeros = termo.replace(/\D/g, "");
   return Recepcao.agendamentos().filter(function (a) {
     if (filtros.de && a.data < filtros.de) return false;
     if (filtros.ate && a.data > filtros.ate) return false;
-    if (filtros.tipo && a.tipo !== filtros.tipo) return false;
-    if (filtros.medico && a.medicoId !== filtros.medico) return false;
-    if (filtros.especialidade && a.medico.especialidade !== filtros.especialidade) return false;
     if (termo) {
-      var bate = a.paciente.nome.toLowerCase().includes(termo) || a.pacienteId.includes(termo) ||
-        (numeros && a.paciente.cpf.replace(/\D/g, "").includes(numeros));
+      var bate = semAcento(a.paciente.nome + " " + a.medico.nome + " " + a.medico.especialidade).includes(termo) ||
+        a.pacienteId.includes(termo) || (numeros && a.paciente.cpf.replace(/\D/g, "").includes(numeros));
       if (!bate) return false;
     }
     return true;
@@ -72,7 +98,7 @@ function renderizar() {
   desenharGraficos(base);
 
   // mais recentes primeiro (futuro no topo)
-  var lista = base.filter(function (a) { return !filtros.status || a.status === filtros.status; })
+  var lista = base.filter(bateStatus)
     .sort(function (a, b) { return (b.data + b.hora).localeCompare(a.data + a.hora); });
 
   var totalPaginas = Math.max(1, Math.ceil(lista.length / POR_PAGINA));
@@ -100,22 +126,10 @@ function renderizar() {
     </tr>`;
   }).join("") || '<tr><td colspan="6" class="tabela-vazia">Nenhuma consulta encontrada com esses filtros.</td></tr>';
 
-  document.getElementById("txtContagem").textContent = lista.length + (lista.length === 1 ? " resultado" : " resultados");
   document.getElementById("txtExibindo").innerHTML = lista.length
     ? "Mostrando <strong>" + (inicio + 1) + "–" + (inicio + visiveis.length) + "</strong> de <strong>" + lista.length + "</strong> consultas"
     : "";
   RecepcaoComp.paginacao(document.getElementById("paginacao"), pagina, totalPaginas);
-}
-
-function preencherSelects() {
-  var tipos = {};
-  Recepcao.agendamentos().forEach(function (a) { tipos[a.tipo] = true; });
-  document.getElementById("filtroTipo").innerHTML = '<option value="">Todos os tipos</option>' +
-    Object.keys(tipos).sort().map(function (t) { return "<option>" + e(t) + "</option>"; }).join("");
-  document.getElementById("filtroMedico").innerHTML = '<option value="">Todos os profissionais</option>' +
-    Recepcao.medicos().map(function (m) { return '<option value="' + m.id + '">' + e(m.nome) + "</option>"; }).join("");
-  document.getElementById("filtroEspecialidade").innerHTML = '<option value="">Todas as especialidades</option>' +
-    Recepcao.especialidades().map(function (s) { return "<option>" + s + "</option>"; }).join("");
 }
 
 function mudou() {
@@ -124,44 +138,34 @@ function mudou() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  preencherSelects();
-
-  // periodo padrao: ultima semana ate as proximas duas semanas
-  var hoje = Recepcao.hoje();
-  filtros.de = Recepcao.iso(Recepcao.somarDias(hoje, -7));
-  filtros.ate = Recepcao.iso(Recepcao.somarDias(hoje, 14));
+  var seletorPeriodo = document.getElementById("filtroPeriodo");
+  aplicarPeriodo("recentes");
 
   var q = new URLSearchParams(window.location.search);
   if (q.get("busca")) {
     filtros.busca = q.get("busca").toLowerCase().trim();
     document.getElementById("inputBusca").value = q.get("busca");
-    filtros.de = ""; // buscando um paciente: mostra todo o historico dele
-    filtros.ate = "";
+    seletorPeriodo.value = "tudo"; // buscando um paciente: mostra todo o historico dele
+    aplicarPeriodo("tudo");
   }
-  document.getElementById("dataDe").value = filtros.de;
-  document.getElementById("dataAte").value = filtros.ate;
   renderizar();
 
   document.getElementById("inputBusca").addEventListener("input", function (ev) {
     filtros.busca = ev.target.value.toLowerCase().trim();
     mudou();
   });
-  document.getElementById("dataDe").addEventListener("change", function (ev) { filtros.de = ev.target.value; mudou(); });
-  document.getElementById("dataAte").addEventListener("change", function (ev) { filtros.ate = ev.target.value; mudou(); });
-  document.getElementById("btnLimparPeriodo").addEventListener("click", function () {
-    filtros.de = filtros.ate = "";
-    document.getElementById("dataDe").value = "";
-    document.getElementById("dataAte").value = "";
+  seletorPeriodo.addEventListener("change", function (ev) {
+    aplicarPeriodo(ev.target.value);
     mudou();
   });
-  document.getElementById("filtroTipo").addEventListener("change", function (ev) { filtros.tipo = ev.target.value; mudou(); });
-  document.getElementById("filtroMedico").addEventListener("change", function (ev) { filtros.medico = ev.target.value; mudou(); });
-  document.getElementById("filtroEspecialidade").addEventListener("change", function (ev) { filtros.especialidade = ev.target.value; mudou(); });
 
   document.getElementById("filtrosStatus").addEventListener("click", function (ev) {
     var b = ev.target.closest("[data-status]");
     if (!b) return;
-    document.querySelectorAll("#filtrosStatus .filtro").forEach(function (x) { x.classList.toggle("ativo", x === b); });
+    document.querySelectorAll("#filtrosStatus .filtro").forEach(function (x) {
+      x.classList.toggle("ativo", x === b);
+      x.setAttribute("aria-pressed", x === b);
+    });
     filtros.status = b.dataset.status;
     mudou();
   });

@@ -1,0 +1,507 @@
+/* Consulta / atendimento (profissional): so o que e exclusivo desta tela.
+   O restante vem de compartilhado/ (paciente_base, recepcao_visual, paciente_visual, profissional_visual). */
+
+/* ========== TOPO: situacao e cronometro ========== */
+body.rv .chips-consulta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+body.rv .chip-consulta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--rv-borda);
+  border-radius: 999px;
+  background: var(--p-sup);
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+body.rv .chip-andamento {
+  border-color: transparent;
+  background: var(--p-verde-bg);
+  color: var(--p-verde);
+}
+
+/* bolinha que pulsa: consulta em andamento */
+body.rv .chip-andamento i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulsar 1.6s ease-in-out infinite;
+}
+
+@keyframes pulsar {
+  50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.rv .chip-andamento i {
+    animation: none;
+  }
+}
+
+/* ========== ACOES A ESQUERDA, FORMULARIO A DIREITA ========== */
+body.rv .grade-consulta {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+body.rv .acoes-consulta {
+  position: sticky;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 14px;
+}
+
+body.rv .acoes-consulta .painel-rotulo {
+  padding: 0 6px 6px;
+}
+
+body.rv .acao-consulta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+body.rv .acao-consulta:hover:not(:disabled) {
+  background: var(--p-sup2);
+  border-color: var(--rv-borda);
+}
+
+body.rv .acao-consulta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+body.rv .acao-consulta .atalho-icone {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.rv .acao-nome {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+body.rv .acao-sub {
+  display: block;
+  font-size: 14px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .coluna-consulta {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* a lista de sugestoes do CID precisa sair da caixa */
+body.rv .caixa-cid {
+  overflow: visible;
+}
+
+body.rv .faixa-alerta {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 18px;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 14px;
+  background: var(--p-vermelho-bg);
+  color: var(--p-vermelho);
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+body.rv .faixa-alerta svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ========== SINAIS VITAIS ========== */
+body.rv .cabeca-botao {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding-bottom: 16px;
+}
+
+body.rv .cabeca-textos {
+  flex: 1;
+  min-width: 0;
+}
+
+body.rv .cabeca-titulo {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+body.rv .cabeca-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 15px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .seta-recolher {
+  flex-shrink: 0;
+  color: var(--rv-texto-suave);
+  transition: transform 0.2s ease;
+}
+
+body.rv .cabeca-botao[aria-expanded="true"] .seta-recolher {
+  transform: rotate(180deg);
+}
+
+body.rv .grade-vitais {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 0 22px 22px;
+}
+
+body.rv .campo-vital > span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+body.rv .campo-vital > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 46px;
+  padding: 0 12px;
+  border: 1px solid var(--rv-borda);
+  border-radius: 10px;
+  background: var(--p-sup2);
+}
+
+body.rv .campo-vital > div:focus-within {
+  border-color: var(--rv-azul);
+  box-shadow: 0 0 0 3px rgba(29, 100, 242, 0.12);
+}
+
+body.rv .campo-vital input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  color: inherit;
+}
+
+body.rv .campo-vital em {
+  font-size: 13.5px;
+  font-style: normal;
+  color: var(--rv-texto-suave);
+}
+
+/* sinais vitais da triagem: so leitura para o medico */
+body.rv .vitais-leitura .campo-vital > div {
+  background: transparent;
+  border-style: dashed;
+}
+
+body.rv .vitais-leitura .campo-vital > div:focus-within {
+  border-color: var(--rv-borda);
+  box-shadow: none;
+}
+
+body.rv .vitais-leitura .campo-vital input {
+  font-weight: 700;
+  cursor: default;
+}
+
+body.rv .vitais-leitura .campo-vital input::placeholder {
+  color: transparent;
+}
+
+body.rv .rodape-vitais {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+  font-size: 14px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .rodape-vitais[hidden] {
+  display: none;
+}
+
+/* ========== ANAMNESE E CID ========== */
+body.rv .campos-texto {
+  padding: 12px 22px 8px;
+}
+
+body.rv .area-cid {
+  padding: 12px 22px 22px;
+}
+
+body.rv .area-cid .campo-busca {
+  width: 100%;
+  border: 1px solid var(--rv-borda);
+}
+
+body.rv .cid-selecionado {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--p-azul-bg);
+}
+
+body.rv .cid-codigo {
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border-radius: 8px;
+  background: #1259c3;
+  color: #fff;
+  font-size: 15.5px;
+  font-weight: 700;
+}
+
+body.rv .cid-descricao {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ========== DOCUMENTOS DA CONSULTA ========== */
+body.rv .lista-documentos {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 22px 22px;
+}
+
+body.rv .documento {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--rv-borda);
+  border-radius: 12px;
+  background: var(--p-sup2);
+}
+
+body.rv .documento-textos {
+  flex: 1;
+  min-width: 0;
+}
+
+body.rv .documento-tipo {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--p-azul);
+}
+
+body.rv .documento-texto {
+  display: block;
+  margin-top: 2px;
+  font-size: 15.5px;
+  overflow-wrap: anywhere;
+}
+
+/* ========== BARRA DE BAIXO ========== */
+body.rv .barra-final {
+  position: sticky;
+  bottom: 0;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0 -32px -32px;
+  padding: 14px 32px;
+  background: var(--p-sup);
+  border-top: 1px solid var(--rv-borda);
+  box-shadow: 0 -6px 18px rgba(15, 25, 35, 0.06);
+}
+
+body.rv .salvo-rodape {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .salvo-rodape.salvo {
+  color: var(--p-verde);
+}
+
+/* ========== JANELAS DE RECEITA E DE EXAMES ========== */
+body.rv .itens-doc {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+body.rv .itens-doc:empty,
+body.rv .chips-exames:empty {
+  display: none;
+}
+
+body.rv .item-doc {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--rv-borda);
+  border-radius: 12px;
+  background: var(--p-sup2);
+}
+
+body.rv .item-doc > div {
+  flex: 1;
+  min-width: 0;
+}
+
+body.rv .item-nome {
+  font-size: 15.5px;
+  font-weight: 700;
+}
+
+body.rv .item-detalhe {
+  margin-top: 2px;
+  font-size: 14.5px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .item-remover,
+body.rv .chip-exame button {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--rv-texto-suave);
+  cursor: pointer;
+}
+
+body.rv .item-remover {
+  width: 30px;
+  height: 30px;
+}
+
+body.rv .item-remover:hover,
+body.rv .chip-exame button:hover {
+  background: var(--p-vermelho-bg);
+  color: var(--p-vermelho);
+}
+
+body.rv .chips-exames {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+body.rv .chip-exame {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 6px 14px;
+  border-radius: 999px;
+  background: var(--p-azul-bg);
+  color: var(--p-azul);
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+body.rv .chip-exame button {
+  width: 22px;
+  height: 22px;
+}
+
+body.rv .campo-indicacao {
+  margin-top: 14px;
+}
+
+@media (max-width: 1420px) {
+  body.rv .barra-final {
+    margin: 0 -24px -32px;
+    padding: 14px 24px;
+  }
+}
+
+@media (max-width: 1100px) {
+  body.rv .grade-consulta {
+    grid-template-columns: 1fr;
+  }
+
+  /* as acoes viram uma linha de botoes acima do formulario */
+  body.rv .acoes-consulta {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  body.rv .acoes-consulta .painel-rotulo {
+    width: 100%;
+  }
+
+  body.rv .acao-consulta {
+    flex: 1 1 200px;
+    width: auto;
+  }
+}
+
+@media (max-width: 900px) {
+  body.rv .barra-final {
+    margin: 0 -16px -24px;
+    padding: 12px 16px;
+  }
+}

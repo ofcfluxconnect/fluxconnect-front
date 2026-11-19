@@ -1,0 +1,14 @@
+/* Meu Perfil (profissional): so o que e exclusivo desta tela.
+   O visual (cartao do perfil, secoes, chaves e saida) e o mesmo da "Minha Conta" do paciente
+   e fica em compartilhado/paciente_visual.css, no bloco "TELA DE CONTA / PERFIL". */
+
+/* foto do perfil ocupa o circulo inteiro */
+body.rv .avatar-perfil {
+  overflow: hidden;
+}
+
+/* "nao informado" em cinza */
+body.rv .lista-dados dd.vazio {
+  font-weight: 400;
+  color: var(--rv-texto-suave);
+}

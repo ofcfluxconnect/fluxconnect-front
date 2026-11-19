@@ -1,387 +1,475 @@
-/*void/*
-/* Cores que usamos no site */
-:root {
-  --azul: #1559dc;
-  --texto: #102344;
-  --suave: #667d9f;
-  --borda: #d6e2f4;
-  --fundo: #f0f5fc;
-}
+/* Tela de login com a mesma linguagem das telas internas: fundo claro com a marca d'agua,
+   cartoes brancos arredondados, azul #1259c3, etiquetas de status e cards de resumo.
+   O tema escuro vale quando o <html> tem data-tema="escuro" (compartilhado/recepcao_tema.js). */
 
-/* Aqui deixamos tudo organizado e centralizamos a tela */
-* { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  min-height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-  color: var(--texto);
-}
-
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* padding: 24px 16px; */
-  /* background: #666; */
-}
-
-/* Dividimos a tela em duas partes */
-.tela {
-  display: grid;
-  grid-template-columns: 48.1% 51.9%;
-  width: min(100%);
-  height: 100%;
-  min-height: 680px;
-  max-height: 900px;
-  overflow: hidden;
-  /* border: 1px solid #d4d8df; */
-  background: var(--fundo);
-}
-
-/* Lado azul: apresentação da FluxConnect */
-.apresentacao {
-  position: relative;
-  overflow: hidden;
-  padding: 29px clamp(50px, 10.2vw, 148px) 28px;
-  color: white;
-  background: linear-gradient(116deg, #1646a8, #1556d5 55%, #1b75e8);
-}
-
-/*Remover margens e espaços externos*/
 * {
+  font-family: "Inter", sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/*Deixar em tela cheia*/
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
+:root {
+  --azul: #1259c3;
+  --azul-forte: #0d4aa6;
+  --azul-claro: #e3eefc;
+  --texto: #0f1923;
+  --texto-suave: #55606f;
+  --borda: #e1e7ef;
+  --fundo: #f4f7fb;
+  --fundo-topo: #e9f1fc;
+  --cartao: #fff;
+  --campo: #f5f8fc;
+  --sombra: 0 2px 10px rgba(15, 25, 35, 0.04);
 }
 
+html[data-tema="escuro"] {
+  color-scheme: dark;
+  --azul: #2563eb;
+  --azul-forte: #8bb8ff;
+  --azul-claro: #1c3354;
+  --texto: #e8eef6;
+  --texto-suave: #9fb0c3;
+  --borda: #26364a;
+  --fundo: #0e1620;
+  --fundo-topo: #142238;
+  --cartao: #172334;
+  --campo: #1b2a3f;
+  --sombra: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
 
-/* Organizamos a logo e o nome da empresa */
-.marca {
+[hidden] {
+  display: none !important;
+}
+
+body {
   position: relative;
-  z-index: 1;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, var(--fundo-topo) 0%, var(--fundo) 420px);
+  background-color: var(--fundo);
+  color: var(--texto);
+}
+
+/* marca d'agua com a logo, como no cabecalho das telas internas */
+body::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  left: 38%;
+  width: 420px;
+  height: 380px;
+  background: url("../../../midias/logo/fluxConnect_2_transparente.svg") center / contain no-repeat;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+/* ========== TOPO ========== */
+.topo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 40px 0;
+}
+
+.marca {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.logo {
-  width: 38px;
-  height: 38px;
-  flex-shrink: 0;
+.marca img {
   object-fit: contain;
 }
 
-.marca b, .marca small {
-  display: block;
+.marca-nome {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.15;
 }
 
-.marca b { font-size: 15px; }
-.marca small {
-  margin-top: 3px;
-  color: #d9e8ff;
-  font-size: 9px;
+.marca-sub {
+  margin-top: 2px;
+  font-size: 13.5px;
+  color: var(--texto-suave);
 }
 
-/* Títulos e texto de apresentação */
-.intro {
-  position: relative;
-  z-index: 1;
-  margin-top: 55px;
-}
-
-.intro h1 {
-  margin: 0 0 10px;
-  font-size: clamp(34px, 3.2vw, 47px);
-  line-height: .94;
-  letter-spacing: -1.5px;
-}
-
-.intro h2 {
-  margin: 0 0 14px;
-  color: #91bdff;
-  font-size: clamp(22px, 2vw, 27px);
-}
-
-.intro p, .beneficios p {
-  color: #e1edff;
-  line-height: 1.5;
-}
-
-.intro p {
-  max-width: 280px;
-  font-size: 11.5px;
-}
-
-/* Lista de benefícios com ícones */
-.beneficios {
-  position: relative;
-  z-index: 1;
+.btn-topo {
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--borda);
+  border-radius: 50%;
+  background: var(--cartao);
+  color: var(--texto);
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-top: 27px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(15, 25, 35, 0.05);
 }
 
-.beneficios article {
-  display: grid;
-  grid-template-columns: 34px 1fr;
-  align-items: start;
-  gap: 12px;
+.btn-topo:hover {
+  background: var(--azul-claro);
 }
 
-.beneficios i {
-  display: grid;
-  place-items: center;
-  width: 33px;
-  height: 33px;
-  border: 1px solid #ffffff59;
-  border-radius: 50%;
-  background: #ffffff30;
-  font-size: 18px;
-  font-style: normal;
+.btn-tema .icone-sol,
+html[data-tema="escuro"] .btn-tema .icone-lua {
+  display: none;
 }
 
-.beneficios b {
+html[data-tema="escuro"] .btn-tema .icone-sol {
   display: block;
-  margin: 2px 0 3px;
-  font-size: 11.5px;
 }
 
-.beneficios p {
-  margin: 0;
-  font-size: 9.7px;
-}
-
-/* Ondas decorativas do fundo */
-.ondas, .ondas::after {
-  position: absolute;
-  bottom: 11px;
-  left: -7%;
-  width: 115%;
-  height: 92px;
-  border: 1px solid #74beff45;
-  border-radius: 50%;
-  transform: rotate(-7deg);
-  pointer-events: none;
-}
-
-.ondas::after {
-  content: "";
-  left: -3%;
-  bottom: -17px;
+/* ========== ESTRUTURA ========== */
+.tela {
+  position: relative;
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 48px;
   width: 100%;
-  height: 104px;
-  border-color: #74beff38;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 40px 36px;
 }
 
-/* Texto pequeno no rodapé azul */
-.copyright {
-  position: absolute;
-  z-index: 1;
-  bottom: 32px;
-  left: clamp(50px, 10.2vw, 148px);
-  color: #9ec5ff;
-  font-size: 9.5px;
-  white-space: nowrap;
+/* ========== APRESENTACAO ========== */
+.chip-apresentacao {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--azul-claro);
+  color: var(--azul-forte);
+  font-size: 14.5px;
+  font-weight: 600;
 }
 
-/* Lado do formulário de login */
+.apresentacao h1 {
+  margin-top: 16px;
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+}
+
+.apresentacao h1 span {
+  color: var(--azul);
+}
+
+html[data-tema="escuro"] .apresentacao h1 span {
+  color: var(--azul-forte);
+}
+
+.apresentacao-texto {
+  margin-top: 14px;
+  max-width: 540px;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--texto-suave);
+}
+
+/* ---------- beneficios ---------- */
+.beneficios {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 26px;
+  margin-top: 28px;
+}
+
+.beneficios li {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.beneficio-icone {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icone-azul { background: #e0ecfd; color: #1d4ed8; }
+.icone-verde { background: #dcf5e6; color: #15803d; }
+.icone-roxo { background: #efe9fe; color: #6d28d9; }
+
+html[data-tema="escuro"] .icone-azul { background: #1c3354; color: #8bb8ff; }
+html[data-tema="escuro"] .icone-verde { background: #1b3728; color: #86e0ac; }
+html[data-tema="escuro"] .icone-roxo { background: #2a2148; color: #b79cf5; }
+
+.beneficio-nome {
+  font-size: 15.5px;
+  font-weight: 600;
+}
+
+.beneficio-texto {
+  font-size: 13.5px;
+  color: var(--texto-suave);
+}
+
+/* ========== FORMULARIO ========== */
 .painel-login {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 55px 40px 36px;
-  background: var(--fundo);
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 
-.conteudo {
+.cartao-login {
   width: 100%;
-  max-width: 415px;
+  max-width: 440px;
+  padding: 30px 32px 24px;
+  background: var(--cartao);
+  border: 1px solid var(--borda);
+  border-radius: 20px;
+  box-shadow: 0 14px 40px rgba(15, 25, 35, 0.08);
 }
 
-.escura {
+/* icone no topo do cartao, no estilo dos cards de resumo */
+.cartao-icone {
+  width: 54px;
+  height: 54px;
+  margin: 4px 0 20px 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 13px;
-  margin-bottom: 22px;
+  background: #1d64f2;
+  color: #fff;
+  box-shadow: 0 0 0 7px #e6effe;
 }
 
-.escura .logo {
-  width: 48px;
-  height: 48px;
-}
-
-.escura b { color: var(--texto); }
-
-/* Mensagem de boas-vindas */
-.boas-vindas {
-  margin-bottom: 32px;
-  text-align: center;
+html[data-tema="escuro"] .cartao-icone {
+  box-shadow: 0 0 0 7px #1c3354;
 }
 
 .boas-vindas h2 {
-  margin: 0 0 6px;
-  font-size: 23px;
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .boas-vindas p {
-  margin: 0;
-  color: var(--suave);
-  font-size: 13px;
+  margin-top: 6px;
+  font-size: 16px;
+  color: var(--texto-suave);
 }
 
-/* Campos de e-mail e senha */
-.campo { margin-bottom: 16px; }
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 22px;
+}
 
 .campo label {
   display: block;
-  margin-bottom: 8px;
-  font-size: 13.5px;
+  margin-bottom: 7px;
+  font-size: 15px;
+  font-weight: 600;
 }
 
-.campo input {
-  width: 100%;
-  height: 43px;
-  padding: 0 38px;
-  border: 1px solid #cfe0ff;
-  border-radius: 16px;
+.entrada {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 50px;
+  padding: 0 14px;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  background: var(--campo);
+  color: var(--texto-suave);
+}
+
+.entrada:focus-within {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px rgba(29, 100, 242, 0.14);
+}
+
+.entrada.invalido {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+.entrada svg {
+  flex-shrink: 0;
+}
+
+.entrada input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
   outline: none;
-  background: #f5f8fe;
-  color: #1b3154;
-  font: 13px Arial, sans-serif;
+  background: transparent;
+  font-size: 16px;
+  color: var(--texto);
 }
 
-.campo input::placeholder { color: #9aaecb; }
-
-.campo input:focus {
-  border-color: #6ca0ff;
-  box-shadow: 0 0 0 3px #1557d917;
+.entrada input::placeholder {
+  color: #8a94a6;
 }
 
-/* Ícone para mostrar ou esconder a senha */
-.senha { position: relative; }
-.senha input { padding-right: 42px; }
-
-.senha button {
-  position: absolute;
-  top: 50%;
-  right: 13px;
-  transform: translateY(-50%);
-  display: grid;
-  place-items: center;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: #506789;
+.btn-ver-senha {
+  width: 36px;
+  height: 36px;
+  margin-right: -6px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--texto-suave);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
-.senha svg, .criar svg {
-  width: 16px;
-  height: 16px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.btn-ver-senha:hover,
+.btn-ver-senha[aria-pressed="true"] {
+  background: var(--azul-claro);
+  color: var(--azul-forte);
 }
 
-/* Lembrar acesso e recuperar senha */
 .opcoes {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 19px 0 24px;
-  font-size: 13px;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 15px;
 }
 
-.opcoes label {
+.lembrar {
   display: flex;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
 }
 
-.opcoes input {
+.lembrar input {
   width: 17px;
   height: 17px;
-  margin: 0;
   accent-color: var(--azul);
 }
 
 a {
-  color: #075bff;
+  color: var(--azul-forte);
+  font-weight: 600;
   text-decoration: none;
 }
 
-a:hover { text-decoration: underline; }
-
-/* Botão principal */
-.entrar {
-  width: 100%;
-  height: 47px;
-  border: 0;
-  border-radius: 16px;
-  background: var(--azul);
-  color: white;
-  font-size: 13px;
-  font-weight: 650;
-  cursor: pointer;
-  box-shadow: 0 4px 9px #1249aa47;
+a:hover {
+  text-decoration: underline;
 }
 
-.entrar:hover { background: #0e4fc9; }
-.entrar span { margin-left: 9px; font-size: 20px; }
-
-/* Separador e botão de criar conta */
-.separador {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 20px 0 17px;
-  color: #91a6c4;
-  font-size: 11px;
+/* aviso do login: azul (informacao), verde (deu certo) ou vermelho (erro) */
+.mensagem {
+  padding: 11px 14px;
+  border-radius: 10px;
+  background: var(--azul-claro);
+  color: var(--azul-forte);
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
-.separador::before, .separador::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: #dce6f5;
+.mensagem.erro {
+  background: #fde8e8;
+  color: #c81e1e;
 }
 
-.criar {
+.mensagem.sucesso {
+  background: #e3f7ec;
+  color: #15803d;
+}
+
+html[data-tema="escuro"] .mensagem.erro {
+  background: #361919;
+  color: #f08a8a;
+}
+
+html[data-tema="escuro"] .mensagem.sucesso {
+  background: #1b3728;
+  color: #99eeb9;
+}
+
+.btn-primario,
+.btn-secundario {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 9px;
   width: 100%;
-  height: 46px;
-  border: 1px solid var(--borda);
-  border-radius: 16px;
-  background: transparent;
-  color: #075bff;
-  font-size: 13.5px;
+  height: 50px;
+  border-radius: 12px;
+  font-size: 16.5px;
   font-weight: 600;
   cursor: pointer;
 }
 
-.criar:hover { background: #e8f0fc; }
+.btn-primario {
+  border: none;
+  background: #1259c3;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(18, 89, 195, 0.25);
+}
 
-/* Mensagens e informações de privacidade */
-.mensagem {
-  display: none;
-  margin: 12px 0 0;
-  text-align: center;
-  font-size: 12px;
-  line-height: 1.4;
+.btn-primario:hover:not(:disabled) {
+  background: #0d4aa6;
+}
+
+.btn-primario:disabled {
+  opacity: 0.65;
+  box-shadow: none;
+  cursor: wait;
+}
+
+.btn-secundario {
+  border: 1px solid var(--borda);
+  background: var(--cartao);
+  color: var(--texto);
+}
+
+.btn-secundario:hover {
+  background: var(--campo);
+}
+
+.btn-primario:focus-visible,
+.btn-secundario:focus-visible,
+.btn-topo:focus-visible,
+.btn-ver-senha:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(29, 100, 242, 0.45);
+  outline-offset: 2px;
+}
+
+.separador {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--texto-suave);
+}
+
+.separador::before,
+.separador::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--borda);
 }
 
 .privacidade {
@@ -389,53 +477,284 @@ a:hover { text-decoration: underline; }
   align-items: center;
   justify-content: center;
   gap: 7px;
-  margin-top: 23px;
-  padding-top: 19px;
-  border-top: 1px solid #dce6f5;
-  color: #9aacc6;
-  font-size: 11.5px;
-  white-space: nowrap;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--borda);
+  font-size: 14px;
+  color: var(--texto-suave);
 }
 
-.privacidade > span:first-child {
-  color: #6d83a3;
-  font-size: 16px;
+.copyright {
+  font-size: 13px;
+  color: var(--texto-suave);
 }
 
-/* Em telas menores, mostramos só o formulário */
-@media (max-width: 900px) {
-  body { padding: 0; }
-
+/* ========== TELAS MENORES ========== */
+@media (max-width: 1100px) {
   .tela {
-    grid-template-columns: 1fr;
-    width: 100%;
-    height: auto;
-    min-height: 100vh;
-    max-height: none;
-    border: 0;
+    gap: 32px;
+    padding: 24px 24px 28px;
   }
 
-  .apresentacao { display: none; }
-
-  .painel-login {
-    align-items: center;
-    min-height: 100vh;
-    padding: 40px 24px;
+  .topo {
+    padding: 18px 24px 0;
   }
 
-  .conteudo { max-width: 430px; }
+  .apresentacao h1 {
+    font-size: 34px;
+  }
 }
 
-/* Pequenos ajustes para celulares estreitos */
-@media (max-width: 420px) {
-  .painel-login { padding: 30px 20px; }
+/* notebook (tela baixa): tudo cabe sem rolar */
+@media (max-height: 800px) and (min-width: 941px) {
+  .tela {
+    padding-top: 14px;
+    padding-bottom: 18px;
+  }
+
+  .apresentacao h1 {
+    margin-top: 12px;
+    font-size: 34px;
+  }
+
+  .apresentacao-texto {
+    margin-top: 10px;
+    font-size: 16px;
+  }
+
+  .beneficios {
+    margin-top: 20px;
+  }
+
+  .cartao-login {
+    padding: 22px 28px 18px;
+  }
+
+  .cartao-icone {
+    width: 46px;
+    height: 46px;
+    margin-bottom: 14px;
+    box-shadow: 0 0 0 6px #e6effe;
+  }
+
+  form {
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .entrada,
+  .btn-primario,
+  .btn-secundario {
+    height: 46px;
+  }
 
   .privacidade {
-    flex-wrap: wrap;
-    font-size: 10px;
-    white-space: normal;
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+}
+
+/* tablet em pe e celular: o formulario vem primeiro; a previa do sistema some */
+@media (max-width: 940px) {
+  .tela {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 22px;
+    max-width: 520px;
+    padding: 18px 16px 28px;
   }
 
-  .privacidade a { font-size: 10px; }
-  .desktop { display: none; }
+  .topo {
+    padding: 14px 16px 0;
+  }
+
+  .painel-login {
+    order: 1;
+  }
+
+  .apresentacao {
+    order: 2;
+    text-align: center;
+  }
+
+  .chip-apresentacao,
+  .apresentacao-texto {
+    display: none;
+  }
+
+  .apresentacao h1 {
+    margin-top: 0;
+    font-size: 22px;
+  }
+
+  .beneficios {
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    text-align: left;
+  }
+
+  .beneficios li {
+    flex: 1 1 150px;
+    padding: 12px;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    background: var(--cartao);
+  }
+
+  .cartao-login {
+    max-width: none;
+    padding: 24px 20px 20px;
+  }
+
+  /* marca d'agua menor e inteira dentro da tela (nao cria rolagem lateral) */
+  body::before {
+    top: 60px;
+    left: auto;
+    right: 0;
+    width: 220px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 420px) {
+  .marca img {
+    width: 46px;
+    height: 41px;
+  }
+
+  .marca-nome {
+    font-size: 18px;
+  }
+
+  .boas-vindas h2 {
+    font-size: 24px;
+  }
+}
+
+/* ========== CARTAO DE ACESSO MAIOR ==========
+   O formulario e o centro da tela: cartao mais largo, campos e botoes mais altos. */
+@media (min-width: 941px) {
+  .tela {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  }
+
+  .cartao-login {
+    max-width: 540px;
+    padding: 40px 44px 30px;
+  }
+
+  .cartao-icone {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 24px;
+  }
+
+  .boas-vindas h2 {
+    font-size: 31px;
+  }
+
+  .boas-vindas p {
+    font-size: 17px;
+  }
+
+  form {
+    gap: 18px;
+    margin-top: 28px;
+  }
+
+  .campo label {
+    font-size: 16px;
+  }
+
+  .entrada,
+  .btn-primario,
+  .btn-secundario {
+    height: 56px;
+  }
+
+  .entrada {
+    padding: 0 16px;
+  }
+
+  .entrada input,
+  .opcoes {
+    font-size: 16.5px;
+  }
+
+  .btn-primario,
+  .btn-secundario {
+    font-size: 17.5px;
+  }
+
+  /* os beneficios ficam em coluna, como uma lista, ao lado do cartao */
+  .beneficios {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .beneficio-icone {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+  }
+
+  .beneficio-nome {
+    font-size: 17px;
+  }
+
+  .beneficio-texto {
+    font-size: 15px;
+  }
+}
+
+/* notebook (tela baixa): o cartao continua largo, so um pouco mais baixo, para caber sem rolar */
+@media (max-height: 800px) and (min-width: 941px) {
+  .cartao-login {
+    padding: 26px 40px 20px;
+  }
+
+  .cartao-icone {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 16px;
+  }
+
+  .boas-vindas h2 {
+    font-size: 27px;
+  }
+
+  form {
+    gap: 13px;
+    margin-top: 18px;
+  }
+
+  .entrada,
+  .btn-primario,
+  .btn-secundario {
+    height: 50px;
+  }
+
+  .beneficios {
+    gap: 12px;
+    margin-top: 22px;
+  }
+}
+
+/* ========== PREENCHIMENTO AUTOMATICO DO NAVEGADOR ==========
+   Quando o navegador preenche e-mail/senha sozinho, ele pinta o campo de azul ou amarelo,
+   num retangulo que nao acompanha os cantos arredondados. Aqui o campo fica da cor normal. */
+.entrada input:-webkit-autofill,
+.entrada input:-webkit-autofill:hover,
+.entrada input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--texto);
+  caret-color: var(--texto);
+  box-shadow: 0 0 0 1000px var(--campo) inset;
+  transition: background-color 9999s ease-out; /* segura a cor que o navegador tenta aplicar */
+}
+
+.entrada input:autofill {
+  box-shadow: 0 0 0 1000px var(--campo) inset;
 }

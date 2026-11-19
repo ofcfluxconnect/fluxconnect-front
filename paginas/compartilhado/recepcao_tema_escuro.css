@@ -143,15 +143,15 @@ html[data-tema="escuro"] .tabela tbody tr:hover {
 }
 
 html[data-tema="escuro"] .badge-pendente {
-  background: #372d1a;
-  color: #f7aa6f;
-  border-color: #6c532d;
+  background: #3d3a1d;
+  color: #f8c77f;
+  border-color: #6c602d;
 }
 
 html[data-tema="escuro"] .badge-confirmada {
-  background: #1a2536;
-  color: #5279e8;
-  border-color: #2f456a;
+  background: #1b3728;
+  color: #99eeb9;
+  border-color: #39604b;
 }
 
 html[data-tema="escuro"] .badge-aguardando {
@@ -161,9 +161,9 @@ html[data-tema="escuro"] .badge-aguardando {
 }
 
 html[data-tema="escuro"] .badge-em-atendimento {
-  background: #1c3b2b;
-  color: #9efae0;
-  border-color: #36634d;
+  background: #1b3728;
+  color: #99eeb9;
+  border-color: #39604b;
 }
 
 html[data-tema="escuro"] .badge-realizada {
@@ -179,9 +179,9 @@ html[data-tema="escuro"] .badge-cancelada {
 }
 
 html[data-tema="escuro"] .badge-falta {
-  background: #12171f;
-  color: #9aa8bc;
-  border-color: #2a3a50;
+  background: #361919;
+  color: #e75f5f;
+  border-color: #6b2e2e;
 }
 
 html[data-tema="escuro"] .badge-vago {
@@ -1120,4 +1120,14 @@ html[data-tema="escuro"] .rosca-rotulo {
 html[data-tema="escuro"] .rc-dica {
   background: #e8eef6;
   color: #0e1620;
+}
+
+/* cards de resumo amarelos (aguardando e pendente) */
+html[data-tema="escuro"] body.rv .stat-amarelo {
+  --stat-fundo: #3d3a1d;
+  --stat-texto-cor: #f8c77f;
+}
+
+html[data-tema="escuro"] body.rv .icone-stat-roxo .stat-icone {
+  box-shadow: 0 0 0 7px #2a2148;
 }

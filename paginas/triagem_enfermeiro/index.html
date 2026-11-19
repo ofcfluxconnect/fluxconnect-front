@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Triagem do paciente - FluxConnect Enfermagem</title>
+    <script src="../compartilhado/recepcao_tema.js"></script>
+    <!-- a base e o visual sao os mesmos das outras visoes -->
+    <link rel="stylesheet" href="../compartilhado/paciente_base.css" />
+    <link rel="stylesheet" href="../compartilhado/recepcao_visual.css" />
+    <link rel="stylesheet" href="../compartilhado/paciente_visual.css" />
+    <link rel="stylesheet" href="../compartilhado/profissional_visual.css" />
+    <link rel="stylesheet" href="../atendimento_profissional/style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../compartilhado/recepcao_tema_escuro.css" />
+    <link rel="stylesheet" href="../compartilhado/celular.css" />
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="rv" data-perfil="enfermeiro" data-notificacoes="enfermeiro">
+    <!-- Barra lateral do enfermeiro (no celular vira a barra de abas) -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <img src="../../midias/logo/fluxConnect_2_transparente.svg" alt="Logo FluxConnect" class="logo-fluxconnect" />
+        <div>
+          <p class="logo-nome">FluxConnect</p>
+          <p class="logo-subtitulo">Enfermagem</p>
+        </div>
+      </div>
+
+      <nav class="nav-links" aria-label="Menu da enfermagem">
+        <a href="../tela_principal_enfermeiro/index.html" class="link-ativo" aria-current="page">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span>Triagem</span>
+        </a>
+        <a href="../coletas_enfermeiro/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg>
+          <span>Coletas</span>
+        </a>
+        <a href="../procedimentos_enfermeiro/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3a2.4 2.4 0 0 1-3.4 0l-.6-.6a2.4 2.4 0 0 1 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></svg>
+          <span>Medicação</span>
+        </a>
+        <a href="../meu_perfil_enfermeiro/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Meu Perfil</span>
+        </a>
+      </nav>
+
+      <!-- Clicar abre o menu com "Meu perfil" e "Sair da conta" -->
+      <button type="button" class="container-user" data-menu-usuario aria-label="Opções da conta" title="Opções da conta">
+        <span class="avatar-user" aria-hidden="true" data-perfil="iniciais">--</span>
+        <span class="info-user">
+          <span class="nome-user" data-perfil="nome">Enfermeiro</span>
+          <span class="tipo-user" data-perfil="especialidade"></span>
+        </span>
+      </button>
+    </aside>
+
+    <main class="conteudo-principal">
+      <header class="topo-pagina">
+        <div>
+          <nav class="migalha" aria-label="Você está em">
+            <a href="../tela_principal_enfermeiro/index.html" title="Triagem" aria-label="Voltar à fila de triagem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+            <span aria-hidden="true">/</span>
+            <a href="../tela_principal_enfermeiro/index.html">Triagem</a>
+            <span aria-hidden="true">/</span>
+            <span>Paciente</span>
+          </nav>
+          <h1 class="titulo-pagina" id="tituloPagina">Paciente</h1>
+          <p class="subtitulo-pagina" id="subtituloPagina"><span id="txtIdadeSexo"></span> · <span id="txtPlano"></span> · Prontuário <strong id="txtProntuario"></strong></p>
+        </div>
+        <div class="topo-direita">
+          <div class="icones-topo">
+            <button type="button" class="btn-topo" title="Notificações">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="ponto-notificacao"></span>
+            </button>
+            <button type="button" class="btn-topo btn-tema" data-alternar-tema title="Usar tema escuro" aria-label="Usar tema escuro" aria-pressed="false">
+              <svg class="icone-lua" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+              <svg class="icone-sol" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"/></svg>
+            </button>
+          </div>
+          <div class="chips-consulta">
+            <span class="chip-consulta chip-andamento"><i></i> Triagem em andamento</span>
+            <span class="chip-consulta" title="Horário da consulta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg> <span id="txtHoraConsulta"></span></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="area-pagina">
+        <!-- Paciente nao encontrado -->
+        <div class="caixa estado-vazio" id="avisoErro" hidden>
+          <strong>Paciente não encontrado na agenda de hoje</strong>
+          Abra a triagem pela fila.
+          <div><a class="btn-primario" href="../tela_principal_enfermeiro/index.html">Voltar para a fila</a></div>
+        </div>
+
+        <div class="coluna-consulta" id="formulario">
+          <!-- Alergias e condicoes do cadastro -->
+          <p class="faixa-alerta" id="faixaAlerta" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span id="txtAlerta"></span></p>
+
+          <!-- Sinais vitais -->
+          <section class="caixa">
+            <div class="cabeca-lista">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.6A2 2 0 1 0 3 6h3a2 2 0 1 0-1.8-3.4"/><path d="M4.5 6v5a5.5 5.5 0 0 0 11 0V6"/><path d="M19.5 13a2.5 2.5 0 1 0 0 5"/><path d="M22 15.5v2A4.5 4.5 0 0 1 17.5 22h-1A4.5 4.5 0 0 1 12 17.5"/></svg>
+              <div><h2>Sinais vitais</h2><p>Pressão, frequência cardíaca e temperatura são obrigatórias.</p></div>
+            </div>
+            <div class="grade-vitais" id="gradeVitais">
+              <label class="campo-vital"><span>Pressão arterial <b class="obrigatorio">*</b></span><div><input data-campo="pa" data-obrigatorio placeholder="120/80" inputmode="numeric" /><em>mmHg</em></div></label>
+              <label class="campo-vital"><span>Freq. cardíaca <b class="obrigatorio">*</b></span><div><input data-campo="fc" data-obrigatorio placeholder="72" inputmode="numeric" /><em>bpm</em></div></label>
+              <label class="campo-vital"><span>Temperatura <b class="obrigatorio">*</b></span><div><input data-campo="temp" data-obrigatorio placeholder="36,5" inputmode="decimal" /><em>°C</em></div></label>
+              <label class="campo-vital"><span>Saturação (SpO₂)</span><div><input data-campo="sat" placeholder="98" inputmode="numeric" /><em>%</em></div></label>
+              <label class="campo-vital"><span>Glicemia capilar</span><div><input data-campo="glicemia" placeholder="95" inputmode="numeric" /><em>mg/dL</em></div></label>
+              <label class="campo-vital"><span>Peso</span><div><input data-campo="peso" placeholder="70,0" inputmode="decimal" /><em>kg</em></div></label>
+              <label class="campo-vital"><span>Altura</span><div><input data-campo="altura" placeholder="1,70" inputmode="decimal" /><em>m</em></div></label>
+            </div>
+          </section>
+
+          <!-- Queixa -->
+          <section class="caixa">
+            <div class="cabeca-lista">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <div><h2>Queixa do paciente</h2><p>O médico vê este texto ao abrir a consulta.</p></div>
+            </div>
+            <div class="campos-texto">
+              <label class="campo-form">
+                <span class="rotulo-texto">Queixa principal <b class="obrigatorio">*</b><small data-contador="queixa">0 caracteres</small></span>
+                <textarea data-campo="queixa" data-obrigatorio rows="3" maxlength="400" placeholder="O que o paciente relata, com as palavras dele..."></textarea>
+              </label>
+              <label class="campo-form">
+                <span class="rotulo-texto">Observações da enfermagem<small data-contador="observacoes">0 caracteres</small></span>
+                <textarea data-campo="observacoes" rows="2" maxlength="400" placeholder="Opcional: estado geral, uso de medicação hoje, acompanhante..."></textarea>
+              </label>
+            </div>
+          </section>
+
+          <!-- Alergias -->
+          <section class="caixa">
+            <div class="cabeca-lista">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <div><h2>Alergias</h2><p>Confira com o paciente. Você pode acrescentar uma alergia; para remover, fale com a recepção ou o médico.</p></div>
+            </div>
+            <div class="area-alergias">
+              <div class="tags" id="listaAlergias"></div>
+              <div class="linha-nova-alergia">
+                <input type="text" id="novaAlergia" maxlength="40" autocomplete="off" placeholder="Acrescentar alergia (ex.: Ibuprofeno)" aria-label="Acrescentar alergia" />
+                <button type="button" class="btn-secundario" id="btnAdicionarAlergia" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Acrescentar</button>
+              </div>
+              <label class="opcao-marcar">
+                <input type="checkbox" id="alergiasConferidas" />
+                <span>Conferi as alergias com o paciente <b class="obrigatorio">*</b></span>
+              </label>
+            </div>
+          </section>
+
+          <!-- Classificacao de risco -->
+          <section class="caixa">
+            <div class="cabeca-lista">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <div><h2>Classificação de risco <b class="obrigatorio">*</b></h2><p>Define a prioridade do paciente na fila do médico.</p></div>
+            </div>
+            <div class="opcoes-risco" id="opcoesRisco" role="radiogroup" aria-label="Classificação de risco"></div>
+          </section>
+        </div>
+
+        <!-- Barra de baixo: fica sempre visivel -->
+        <div class="barra-final" id="barraFinal">
+          <span class="salvo-rodape" id="salvoRodape"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12.5 10 17.5 19 7.5"/></svg> <span id="txtSalvo">Preencha os campos obrigatórios (*)</span></span>
+          <div class="barra-botoes">
+            <button type="button" class="btn-secundario" id="btnHistorico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg> Histórico</button>
+            <button type="button" class="btn-primario btn-grande" id="btnConcluir">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12.5 10 17.5 19 7.5"/></svg>
+              Concluir Triagem
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="../compartilhado/pacientes_profissional.js"></script>
+    <script src="../compartilhado/profissional_dados.js"></script>
+    <script src="../compartilhado/recepcao_layout.js"></script>
+    <script src="../compartilhado/recepcao_componentes.js"></script>
+    <script src="../compartilhado/notificacoes.js"></script>
+    <script src="../compartilhado/confirmacao.js"></script>
+    <script src="../compartilhado/perfil_enfermeiro.js"></script>
+    <script src="../compartilhado/enfermagem_dados.js"></script>
+    <script src="../compartilhado/receita_visualizar.js"></script>
+    <script src="../compartilhado/prontuario_modal.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

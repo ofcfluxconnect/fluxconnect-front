@@ -1,96 +1,123 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FluxConnect | Login</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entrar - FluxConnect</title>
+    <!-- tema claro/escuro escolhido nas outras telas (aplica antes do CSS, sem piscar) -->
+    <script src="../../compartilhado/recepcao_tema.js"></script>
+    <link rel="stylesheet" href="style.css" />
 
-<body>
-<main class="tela">
-
-  <!-- Test -->
-
-  <!-- Painel azul com apresentação da plataforma -->
-  <section class="apresentacao">
-    <div class="marca clara">
-     <img class="logo esquerda" src="LogoFluxconnect.png" alt="Logo FluxConnect">
-      <span><b>FluxConnect</b><small>Plataforma de Saúde</small></span>
-    </div>
-
-    <div class="intro">
-      <h1>Conectando<br>pacientes<br>e serviços de saúde.</h1>
-      <h2>Simplificando sua<br>jornada médica.</h2>
-      <p>A plataforma que integra pacientes, clínicas,<br class="desktop">
-        laboratórios e hospitais em uma única<br class="desktop"> experiência digital.</p>
-    </div>
-
-    <!-- Três benefícios da plataforma -->
-    <div class="beneficios">
-      <article><i>ϟ</i><div><b>Agilidade</b><p>Agende consultas, exames e acompanhe<br class="desktop"> resultados em poucos cliques.</p></div></article>
-      <article><i>♧</i><div><b>Segurança</b><p>Seus dados protegidos seguindo boas práticas de<br class="desktop"> segurança e privacidade.</p></div></article>
-      <article><i>↔</i><div><b>Integração</b><p>Conecte-se com clínicas, laboratórios e hospitais<br class="desktop"> em uma única plataforma.</p></div></article>
-    </div>
-
-    <div class="ondas" aria-hidden="true"></div>
-    <small class="copyright">© 2025 FluxConnect — Todos os direitos reservados</small>
-  </section>
-
-  <!-- Painel claro com o formulário de login -->
-  <section class="painel-login">
-    <div class="conteudo">
-      <div class="marca escura">
-        <img class="logo" src="logo-fluxconnect.png" alt="Logo FluxConnect">
-        <b>FluxConnect</b>
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Topo: marca a esquerda, tema a direita (como nas outras telas) -->
+    <header class="topo">
+      <div class="marca">
+        <img src="../../../midias/logo/fluxConnect_2_transparente.svg" alt="" width="54" height="48" />
+        <div>
+          <p class="marca-nome">FluxConnect</p>
+          <p class="marca-sub">Conectando saúde</p>
+        </div>
       </div>
+      <button type="button" class="btn-topo btn-tema" data-alternar-tema title="Usar tema escuro" aria-label="Usar tema escuro" aria-pressed="false">
+        <svg class="icone-lua" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="icone-sol" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"/></svg>
+      </button>
+    </header>
 
-      <header class="boas-vindas">
-        <h2>Bem-vindo de volta</h2>
-        <p>Entre com suas credenciais para continuar</p>
-      </header>
+    <main class="tela">
+      <!-- Apresentacao: titulo, texto e os tres beneficios -->
+      <section class="apresentacao">
+        <p class="chip-apresentacao">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          Plataforma de saúde
+        </p>
+        <h1>Sua saúde conectada <span>em um só lugar.</span></h1>
+        <p class="apresentacao-texto">Pacientes, clínicas, laboratórios e hospitais na mesma plataforma: agende consultas, acompanhe exames e organize o atendimento.</p>
 
-      <form id="formLogin">
-        <div class="campo">
-          <label for="email">E-mail</label>
-          <input id="email" name="email" type="email" placeholder="email@exemplo.com" autocomplete="username" required minlength="8">
-        </div>
+        <ul class="beneficios">
+          <li>
+            <span class="beneficio-icone icone-azul"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+            <div><p class="beneficio-nome">Agilidade</p><p class="beneficio-texto">Agende em poucos cliques</p></div>
+          </li>
+          <li>
+            <span class="beneficio-icone icone-verde"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></span>
+            <div><p class="beneficio-nome">Segurança</p><p class="beneficio-texto">Seus dados protegidos</p></div>
+          </li>
+          <li>
+            <span class="beneficio-icone icone-roxo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg></span>
+            <div><p class="beneficio-nome">Integração</p><p class="beneficio-texto">Tudo na mesma plataforma</p></div>
+          </li>
+        </ul>
+      </section>
 
-        <div class="campo">
-          <label for="senha">Senha</label>
-          <div class="senha">
-            <input id="senha" name="senha" type="password" placeholder="Digite sua senha" autocomplete="current-password" required>
+      <!-- Formulario de login -->
+      <section class="painel-login">
+        <div class="cartao-login">
+          <span class="cartao-icone" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          </span>
 
-            <!-- JavaScript alterna a visibilidade da senha -->
-            <button id="verSenha" type="button" aria-label="Mostrar senha">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          <header class="boas-vindas">
+            <h2>Bem-vindo de volta</h2>
+            <p>Entre com suas credenciais para continuar.</p>
+          </header>
+
+          <form id="formLogin" novalidate>
+            <div class="campo">
+              <label for="email">E-mail</label>
+              <div class="entrada">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+                <input id="email" name="email" type="email" placeholder="email@exemplo.com" autocomplete="username" required />
+              </div>
+            </div>
+
+            <div class="campo">
+              <label for="senha">Senha</label>
+              <div class="entrada">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <input id="senha" name="senha" type="password" placeholder="Digite sua senha" autocomplete="current-password" required />
+                <!-- o script alterna entre mostrar e ocultar a senha -->
+                <button id="verSenha" type="button" class="btn-ver-senha" aria-label="Mostrar senha" aria-pressed="false">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="opcoes">
+              <label class="lembrar"><input type="checkbox" name="lembrar" /> Lembrar-me</label>
+              <a href="../../tela_esqueci_minha_senha/esqueci_senha.html" id="esqueci">Esqueceu a senha?</a>
+            </div>
+
+            <p class="mensagem" id="mensagem" role="status" aria-live="polite" hidden></p>
+
+            <button class="btn-primario" id="btnEntrar" type="submit">
+              Entrar
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
-          </div>
+
+            <p class="separador"><span>ou</span></p>
+
+            <button class="btn-secundario" id="criarConta" type="button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+              Criar conta
+            </button>
+          </form>
+
+          <footer class="privacidade">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Seus dados estão protegidos.</span>
+            <a href="#" id="privacidade">Política de Privacidade</a>
+          </footer>
         </div>
+        <p class="copyright">© 2026 FluxConnect — Todos os direitos reservados</p>
+      </section>
+    </main>
 
-        <div class="opcoes">
-          <label><input type="checkbox" name="lembrar"> Lembrar-me</label>
-          <a href="#" id="esqueci">Esqueceu a senha?</a>
-        </div>
-
-        <button class="entrar" type="submit">Entrar <span>›</span></button>
-          <p id="mensagem" role="status" aria-live="polite"></p>
-
-        <div class="separador">ou</div>
-        <button class="criar" id="criarConta" type="button">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Criar conta
-        </button>
-        
-        <p class="mensagem" id="mensagem" role="status" aria-live="polite"></p>
-      </form>
-      <footer class="privacidade">
-        <span aria-hidden="true">♢</span><span>Seus dados estão protegidos.</span>
-        <a href="#" id="privacidade">Política de Privacidade ↗</a>
-      </footer>
-    </div>
-  </section>
-</main>
-<script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

@@ -178,10 +178,11 @@
   document.addEventListener("DOMContentLoaded", function () {
     var principal = document.querySelector(".conteudo-principal");
     if (!principal) return;
+    // passive: o navegador nao espera este codigo para rolar a tela
     principal.addEventListener("scroll", function () {
       document.querySelectorAll(".menu-acoes.aberto").forEach(function (m) { m.classList.remove("aberto"); });
       if (dica) dica.classList.remove("visivel");
-    });
+    }, { passive: true });
   });
 
   window.RecepcaoComp = { grafico: grafico, paginacao: paginacao, mascararCpf: mascararCpf, ultimosDias: ultimosDias, diaMes: diaMes };

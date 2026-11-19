@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="../compartilhado/recepcao_visual.css" />
     <link rel="stylesheet" href="../compartilhado/recepcao_tema_escuro.css" />
+    <link rel="stylesheet" href="../compartilhado/celular.css" />
 
     <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -55,8 +56,8 @@
         </a>
       </nav>
 
-      <!-- Conta da recepcao (nome generico: varias recepcionistas usam o mesmo acesso).
-           Clicar abre o menu com "Sair da conta". -->
+      <!-- Conta da recepcao: clicar abre o menu com "Meu perfil" e "Sair da conta".
+           O nome e a foto vem do perfil (compartilhado/perfil_recepcao.js). -->
       <button type="button" class="container-user" data-menu-usuario aria-label="Recepcionista — opções da conta" title="Opções da conta">
         <span class="avatar-user" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -212,6 +213,8 @@
 
     <script src="../compartilhado/recepcao_dados.js"></script>
     <script src="../compartilhado/recepcao_layout.js"></script>
+    <script src="../compartilhado/confirmacao.js"></script>
+    <script src="../compartilhado/perfil_recepcao.js"></script>
     <script src="../compartilhado/recepcao_componentes.js"></script>
     <script src="../compartilhado/notificacoes.js"></script>
     <script src="../compartilhado/feriados.js"></script>

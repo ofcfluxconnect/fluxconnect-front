@@ -8,7 +8,7 @@ function montarTopo() {
   var h = new Date().getHours();
   var saudacao = h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite";
   document.getElementById("tituloPagina").textContent = saudacao + ", " + Paciente.perfil().nomeCurto;
-  document.getElementById("subtituloPagina").textContent = Paciente.dataExtenso(Paciente.iso(Paciente.hoje())) + " · Acompanhe suas consultas e exames em um só lugar.";
+  document.getElementById("subtituloPagina").textContent = Paciente.dataExtenso(Paciente.iso(Paciente.hoje()));
 }
 
 // "Sexta-feira, 21 de novembro de 2026 (em 3 dias)"

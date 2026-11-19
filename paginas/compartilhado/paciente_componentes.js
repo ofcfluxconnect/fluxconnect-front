@@ -1,4 +1,4 @@
-// Pecas usadas pelas telas do paciente (precisa de paciente_dados.js e recepcao_layout.js):
+// Pecas usadas pelas telas do paciente (precisa de paciente_dados.js, recepcao_layout.js e confirmacao.js):
 // - PacienteUI.icone("calendario", 18)        -> <svg> de um icone
 // - PacienteUI.badge("confirmada")            -> etiqueta colorida do status
 // - PacienteUI.cartaoConsulta(consulta)       -> cartao de uma consulta, com os botoes de acao
@@ -126,49 +126,8 @@
     return caixa;
   }
 
-  // ---------- confirmacao de sucesso ----------
-  // Janela no meio da tela com o icone verde de confirmacao; some sozinha depois de
-  // alguns segundos (ou ao clicar). "aoFechar" roda quando ela some.
-  var TEMPO_SUCESSO = 2400;
-  var sucessoEl = null;
-  var sucessoTimer = null;
-  var sucessoAoFechar = null;
-
-  function fecharSucesso() {
-    if (!sucessoEl || !sucessoEl.classList.contains("visivel")) return;
-    clearTimeout(sucessoTimer);
-    sucessoEl.classList.remove("visivel");
-    var depois = sucessoAoFechar;
-    sucessoAoFechar = null;
-    if (depois) depois();
-  }
-
-  function sucesso(titulo, texto, aoFechar) {
-    if (!sucessoEl) {
-      sucessoEl = document.createElement("div");
-      sucessoEl.className = "modal-overlay overlay-sucesso";
-      sucessoEl.innerHTML =
-        '<div class="modal-caixa modal-sucesso" role="alertdialog" aria-modal="true" aria-labelledby="pacSucessoTitulo" aria-describedby="pacSucessoTexto">' +
-          '<div class="modal-check-sucesso" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12.5 10 17.5 19 7.5"/></svg></div>' +
-          '<h2 class="modal-titulo" id="pacSucessoTitulo"></h2>' +
-          '<p class="modal-sub" id="pacSucessoTexto"></p>' +
-        "</div>";
-      document.body.appendChild(sucessoEl);
-      sucessoEl.addEventListener("click", fecharSucesso);
-      document.addEventListener("keydown", function (ev) {
-        if (ev.key === "Escape" || ev.key === "Enter") fecharSucesso();
-      });
-    }
-    clearTimeout(sucessoTimer);
-    sucessoEl.querySelector(".modal-titulo").textContent = titulo;
-    sucessoEl.querySelector(".modal-sub").textContent = texto || "";
-    sucessoAoFechar = aoFechar || null;
-    // tira e recoloca a classe para a animacao tocar de novo
-    sucessoEl.classList.remove("visivel");
-    void sucessoEl.offsetWidth;
-    sucessoEl.classList.add("visivel");
-    sucessoTimer = setTimeout(fecharSucesso, TEMPO_SUCESSO);
-  }
+  // confirmacao no meio da tela, que some sozinha (compartilhado/confirmacao.js)
+  var sucesso = FluxConfirmacao.sucesso;
 
   function resumoConsulta(c) {
     return '<dl class="resumo-modal">' +

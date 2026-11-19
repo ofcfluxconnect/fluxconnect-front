@@ -1,0 +1,545 @@
+/* Estrutura das telas no celular (paciente, profissional e recepcao), no padrao de aplicativos:
+   - o menu lateral vira uma barra de abas embaixo
+   - a acao principal da tela vira um botao flutuante
+   - os cards de resumo ficam em duas colunas
+   - as tabelas viram listas de cartoes (sem rolar de lado)
+   - os filtros ficam numa faixa que desliza de lado
+   - as janelas sobem de baixo e ocupam a largura toda
+   O visual (cores, cantos, letras) e o mesmo do computador.
+   Este arquivo e o ULTIMO CSS de cada tela, para valer por cima dos outros.
+   ("body.rv.rv" repete a classe de proposito: da prioridade sobre as regras do menu recolhido.) */
+
+@media (max-width: 900px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ========== ESTRUTURA: conteudo em cima, barra de abas embaixo ========== */
+  body.rv {
+    flex-direction: column;
+    height: 100dvh; /* acompanha a barra de endereco do navegador do celular */
+  }
+
+  html body.rv.rv .sidebar {
+    display: flex;
+    flex-direction: row;
+    order: 2;
+    width: 100%;
+    height: auto;
+    flex: none;
+    z-index: 40;
+    border-right: none;
+    border-top: 1px solid var(--rv-borda);
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -4px 16px rgba(15, 25, 35, 0.06);
+  }
+
+  body.rv .logo-container,
+  body.rv .container-user,
+  body.rv .btn-recolher {
+    display: none;
+  }
+
+  html body.rv.rv .nav-links {
+    flex-direction: row;
+    width: 100%;
+    gap: 2px;
+    padding: 6px;
+  }
+
+  html body.rv.rv .nav-links a {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 54px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    padding: 0 2px;
+    border-radius: 12px;
+    font-size: 11px;
+    box-shadow: none;
+  }
+
+  html body.rv.rv .nav-links a span {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  html body.rv.rv .nav-links a svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* ========== TOPO: titulo a esquerda, icones a direita ========== */
+  body.rv .conteudo-principal::before {
+    display: none;
+  }
+
+  body.rv .topo-pagina {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 16px 16px 6px;
+  }
+
+  body.rv .topo-pagina > div:first-child {
+    flex: 1;
+    min-width: 0;
+  }
+
+  body.rv .migalha {
+    display: none;
+  }
+
+  body.rv .titulo-pagina {
+    font-size: 23px;
+    overflow-wrap: anywhere;
+  }
+
+  body.rv .subtitulo-pagina {
+    margin-top: 4px;
+    font-size: 14.5px;
+  }
+
+  body.rv .topo-direita {
+    flex-direction: column;
+    align-items: flex-end;
+    width: auto;
+    flex-shrink: 0;
+    gap: 8px;
+  }
+
+  body.rv .icones-topo {
+    gap: 8px;
+  }
+
+  body.rv .btn-topo {
+    width: 42px;
+    height: 42px;
+  }
+
+  /* acao principal da tela: botao flutuante acima da barra de abas */
+  body.rv .topo-direita > .btn-primario.btn-grande {
+    position: fixed;
+    right: 16px;
+    bottom: calc(80px + env(safe-area-inset-bottom));
+    z-index: 35;
+    height: 52px;
+    padding: 0 20px;
+    border-radius: 999px;
+    font-size: 15.5px;
+    box-shadow: 0 8px 22px rgba(18, 89, 195, 0.38);
+  }
+
+  /* atalho que so repete um item do menu nao vira botao flutuante */
+  body.rv .topo-direita > .so-computador {
+    display: none;
+  }
+
+  /* espaco no fim da pagina para o botao flutuante nao cobrir o ultimo item */
+  body.rv .area-pagina {
+    gap: 14px;
+    padding: 10px 14px 96px;
+  }
+
+  body.rv .area-wizard,
+  body.rv .barra-periodo,
+  body.rv .barra-periodo + .area-pagina {
+    zoom: 1;
+  }
+
+  body.rv .area-wizard {
+    padding: 10px 12px 28px;
+  }
+
+  /* ========== FILTROS: faixa que desliza de lado ========== */
+  body.rv .barra-ferramentas {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  body.rv .filtros {
+    flex-wrap: nowrap;
+    width: calc(100% + 28px);
+    margin: 0 -14px;
+    padding: 2px 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  body.rv .filtros::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.rv .filtro {
+    flex-shrink: 0;
+  }
+
+  body.rv .campo-busca {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  body.rv .select-filtro,
+  body.rv .ordenar,
+  body.rv .ordenar select {
+    flex: 1 1 100%;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  body.rv .contagem {
+    margin-left: 0;
+  }
+
+  /* tela de consulta: situacao e cronometro descem para uma linha propria, abaixo do nome */
+  body.rv .topo-pagina:has(.chips-consulta) {
+    flex-wrap: wrap;
+  }
+
+  body.rv .topo-pagina:has(.chips-consulta) .topo-direita {
+    display: contents;
+  }
+
+  body.rv .chips-consulta {
+    order: 3;
+    flex: 1 1 100%;
+    justify-content: flex-start;
+  }
+
+  body.rv .chip-consulta {
+    height: 34px;
+    font-size: 14px;
+  }
+
+  /* barra "Finalizar atendimento": encosta nas bordas e o botao ocupa a largura */
+  body.rv .barra-final {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin: 0 -14px -96px;
+    padding: 10px 14px 12px;
+  }
+
+  body.rv .barra-final .btn-primario {
+    width: 100%;
+    height: 48px;
+  }
+
+  body.rv .salvo-rodape {
+    justify-content: center;
+    font-size: 13.5px;
+  }
+
+  /* cartoes de destaque do Inicio do paciente: o icone fica na mesma linha do titulo */
+  body.rv .destaque-topo {
+    flex-wrap: nowrap;
+  }
+
+  body.rv .destaque-icone {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  body.rv .card-destaque {
+    padding: 18px 16px;
+  }
+
+  body.rv .destaque-titulo {
+    font-size: 20px;
+  }
+
+  /* aviso rapido: faixa no topo, na largura da tela */
+  body .rui-toast {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    max-width: none;
+  }
+}
+
+/* =====================================================================
+   CELULAR (ate 760px): tabelas viram cartoes
+   ===================================================================== */
+@media (max-width: 760px) {
+  body.rv .tabela-rolagem {
+    overflow: visible;
+  }
+
+  body.rv .tabela:not(.tabela-laudo),
+  body.rv .tabela:not(.tabela-laudo) tbody {
+    display: block;
+    min-width: 0;
+  }
+
+  /* o cabecalho some da tela, mas continua para leitores de tela */
+  body.rv .tabela:not(.tabela-laudo) thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  /* cada linha e um cartao: os dados empilham; situacao e acoes dividem a ultima linha */
+  body.rv .tabela:not(.tabela-laudo) tbody tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--rv-borda);
+  }
+
+  body.rv .tabela:not(.tabela-laudo) tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  body.rv .tabela:not(.tabela-laudo) tbody td,
+  body.rv .tabela:not(.tabela-laudo) tbody th {
+    display: block;
+    flex: 1 1 100%;
+    width: auto !important;
+    min-width: 0;
+    padding: 0 !important;
+    border: none !important;
+    text-align: left;
+    white-space: normal;
+  }
+
+  body.rv .tabela:not(.tabela-laudo) tbody td:has(.badge),
+  body.rv .tabela:not(.tabela-laudo) tbody td:has(.tags) {
+    flex: 1 1 0;
+  }
+
+  body.rv .tabela:not(.tabela-laudo) tbody td.col-acoes,
+  body.rv .tabela:not(.tabela-laudo) tbody td:last-child:has(button, a) {
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+
+  body.rv .tabela:not(.tabela-laudo) tbody td:empty {
+    display: none;
+  }
+
+  body.rv .tabela .tabela-vazia {
+    padding: 22px 0 !important;
+    text-align: center;
+  }
+
+  body.rv .tabela .pessoa-nome,
+  body.rv .tabela .celula-profissional {
+    white-space: normal;
+  }
+
+  body.rv .tabela .tags {
+    max-width: none;
+  }
+
+  /* agenda do dia (painel da recepcao): o horario vira uma faixa acima das consultas */
+  body.rv .tabela-agenda .tabela tbody .hora-celula {
+    width: 100% !important;
+    padding: 6px 12px !important;
+    border-radius: 8px;
+    border-right: none !important;
+  }
+
+  body.rv .tabela-agenda .tabela tbody tr {
+    border-top: none;
+  }
+
+  body.rv .tabela-agenda .linha-intervalo td {
+    padding: 6px 0 !important;
+    text-align: center;
+  }
+
+  body.rv .rodape-tabela {
+    justify-content: center;
+    padding: 12px 14px;
+  }
+}
+
+/* =====================================================================
+   CELULAR (ate 600px): cards compactos e janelas que sobem de baixo
+   ===================================================================== */
+@media (max-width: 600px) {
+  /* ---------- cards de resumo: duas colunas, sem grafico ---------- */
+  body.rv.rv .cards-stat,
+  body.rv.rv .cards-quatro {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  /* quantidade impar: o ultimo card ocupa a linha inteira */
+  body.rv .cards-stat > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  body.rv .card-stat {
+    min-height: 0;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  body.rv.rv .stat-icone {
+    width: 38px;
+    height: 38px;
+    margin-left: 2px;
+    box-shadow: 0 0 0 4px var(--stat-fundo);
+  }
+
+  body.rv .stat-icone svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  body.rv .stat-texto {
+    margin-left: 2px;
+  }
+
+  body.rv .stat-rotulo {
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+  }
+
+  body.rv .stat-numero {
+    font-size: 24px;
+  }
+
+  body.rv .stat-numero.stat-menor {
+    font-size: 18px;
+  }
+
+  body.rv .stat-sub {
+    font-size: 12.5px;
+  }
+
+  body.rv.rv .stat-grafico {
+    display: none;
+  }
+
+  /* ---------- atalhos e listas ---------- */
+  body.rv.rv .atalhos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  body.rv .atalho {
+    min-height: 92px;
+    padding: 12px 8px;
+    font-size: 14.5px;
+    text-align: center;
+  }
+
+  /* tres atalhos (painel da recepcao): cabem numa linha so */
+  body.rv.rv .atalhos:not(.atalhos-quatro) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  body.rv .atalhos:not(.atalhos-quatro) .atalho {
+    font-size: 13px;
+    line-height: 1.25;
+  }
+
+  body.rv .caixa {
+    border-radius: 14px;
+  }
+
+  body.rv .caixa-cabeca {
+    padding: 14px 16px;
+  }
+
+  body.rv .caixa-titulo,
+  body.rv .cabeca-lista h2 {
+    font-size: 18px;
+  }
+
+  body.rv .cabeca-lista {
+    flex-wrap: wrap;
+    padding: 16px 16px 4px;
+  }
+
+  body.rv .cabeca-lista > svg {
+    display: none;
+  }
+
+  body.rv .cabeca-lista .chip-registros {
+    margin-left: 0;
+  }
+
+  body.rv .lista-proximos {
+    grid-template-columns: 1fr;
+    padding: 12px 14px 14px;
+  }
+
+  /* ---------- janelas: sobem de baixo, na largura da tela ---------- */
+  body.rv .modal-overlay:not(.overlay-sucesso),
+  body .notif-overlay,
+  body .pront-overlay,
+  body .perfil-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  body.rv .modal-overlay:not(.overlay-sucesso) .modal-caixa,
+  body .notif-overlay .notif-caixa,
+  body .pront-overlay .pront-caixa,
+  body .perfil-overlay .perfil-caixa {
+    zoom: 1;
+    width: 100%;
+    max-width: none;
+    max-height: 92dvh;
+    border-radius: 20px 20px 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    animation: janelaSubir 0.22s ease;
+  }
+
+  body.rv .modal-topo {
+    padding: 18px 18px 14px;
+  }
+
+  body.rv .modal-corpo {
+    padding: 16px 18px;
+  }
+
+  body.rv .modal-rodape {
+    padding: 12px 18px 16px;
+  }
+
+  /* botoes da janela dividem a largura: mais faceis de tocar */
+  body.rv .modal-rodape > .btn-primario,
+  body.rv .modal-rodape > .btn-secundario,
+  body.rv .modal-rodape > .btn-perigo {
+    flex: 1 1 140px;
+    height: 48px;
+  }
+
+  body.rv .modal-rodape .contagem-modal {
+    flex: 1 1 100%;
+  }
+
+  /* a confirmacao de sucesso continua no meio, com uma folga nas laterais */
+  body .overlay-sucesso {
+    padding: 20px;
+  }
+}
+
+@keyframes janelaSubir {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body .modal-caixa,
+  body .notif-caixa,
+  body .pront-caixa,
+  body .perfil-caixa {
+    animation: none !important;
+  }
+}

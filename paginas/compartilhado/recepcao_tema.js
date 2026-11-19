@@ -86,6 +86,22 @@
     }
   });
 
+  // Navegacao mais rapida: ao passar o mouse ou focar um item do menu lateral, o navegador
+  // ja comeca a baixar a proxima tela. Quando o clique chega, ela esta pronta (ou quase).
+  var adiantados = {};
+  function adiantar(ev) {
+    var link = ev.target.closest ? ev.target.closest(".nav-links a[href]") : null;
+    if (!link || link.classList.contains("link-ativo") || adiantados[link.href]) return;
+    adiantados[link.href] = true;
+    var dica = document.createElement("link");
+    dica.rel = "prefetch";
+    dica.href = link.href;
+    document.head.appendChild(dica);
+  }
+  document.addEventListener("mouseover", adiantar, { passive: true });
+  document.addEventListener("focusin", adiantar);
+  document.addEventListener("touchstart", adiantar, { passive: true });
+
   // impressao sempre no tema claro (economiza tinta e fica legivel no papel)
   var temaAntesDeImprimir = null;
   window.addEventListener("beforeprint", function () {

@@ -1,0 +1,106 @@
+/* Resultados e Laudos (profissional): so o que e exclusivo desta tela.
+   O restante vem de compartilhado/ (paciente_base, recepcao_visual, paciente_visual, profissional_visual). */
+
+/* resultado ainda nao lido: linha levemente destacada */
+body.rv .tabela-resultados .linha-nova {
+  background: var(--p-azul-bg);
+}
+
+body.rv .tabela-resultados .linha-nova .texto-forte {
+  font-weight: 700;
+}
+
+body.rv .tabela-resultados .hora-lib {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ========== JANELA DO LAUDO ========== */
+body.rv .laudo-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+body.rv .laudo-meta > div {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--p-sup2);
+}
+
+body.rv .laudo-meta dt {
+  font-size: 13px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .laudo-meta dd {
+  margin-top: 2px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+body.rv .tabela-laudo {
+  border: 1px solid var(--rv-borda);
+  border-radius: 10px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+
+body.rv .tabela-laudo th,
+body.rv .tabela-laudo td {
+  padding: 10px 14px;
+  font-size: 15px;
+}
+
+body.rv .tabela-laudo th {
+  font-size: 12.5px;
+}
+
+/* valor fora da referencia */
+body.rv .tabela-laudo .fora-referencia td {
+  color: var(--p-vermelho);
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  body.rv .laudo-meta {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* na impressao sai so o laudo */
+@media print {
+  body.imprimindo-laudo {
+    display: block;
+    height: auto;
+    overflow: visible;
+    background: #fff;
+  }
+
+  body.imprimindo-laudo > *:not(#modalLaudo) {
+    display: none !important;
+  }
+
+  body.imprimindo-laudo #modalLaudo {
+    position: static;
+    display: block;
+    padding: 0;
+    background: none;
+    backdrop-filter: none;
+  }
+
+  body.imprimindo-laudo #modalLaudo .modal-caixa {
+    max-width: none;
+    max-height: none;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  body.imprimindo-laudo #modalLaudo .modal-rodape,
+  body.imprimindo-laudo #modalLaudo .modal-x {
+    display: none;
+  }
+}

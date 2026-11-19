@@ -1,19 +1,23 @@
 // Partes comuns das telas da recepcao (e do paciente):
 // - menu do usuario na barra lateral (com "Sair da conta")
 // - aviso rapido (toast) com titulo e texto: RecepcaoUI.toast("Titulo", "Texto")
-// Nas telas do paciente (<body data-perfil="paciente">) o menu ganha o item "Minha conta".
+// Nas telas do paciente (<body data-perfil="paciente">) o menu ganha o item "Minha conta";
+// nas do profissional e da recepcao, o item "Meu perfil" (no profissional leva para a tela
+// meu_perfil_profissional; na recepcao abre a janela de perfil_recepcao.js).
 
 (function () {
   // enderecos montados a partir deste arquivo: funcionam em telas de qualquer pasta
   var BASE = document.currentScript ? document.currentScript.src : location.href;
   var PAGINA_LOGIN = new URL("../tela_login/fluxconnect_login_enxuto/index.html", BASE).href;
   var PAGINA_CONTA = new URL("../tela_conta_paciente/index.html", BASE).href;
+  var PAGINA_PERFIL_PROFISSIONAL = new URL("../meu_perfil_profissional/index.html", BASE).href;
+  var PAGINA_PERFIL_ENFERMEIRO = new URL("../meu_perfil_enfermeiro/index.html", BASE).href;
 
   var estilos = `
     .rui-toast { position: fixed; top: 18px; right: 18px; z-index: 3000; display: flex; gap: 10px; max-width: 340px;
       background: #ecfdf3; border: 1px solid #86efac; color: #166534; border-radius: 8px; padding: 12px 16px;
       box-shadow: 0 10px 30px rgba(15, 25, 35, 0.12); font-family: "Inter", sans-serif; opacity: 0; transform: translateY(-8px);
-      pointer-events: none; transition: all 0.25s ease; }
+      pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease; }
     .rui-toast.visivel { opacity: 1; transform: none; }
     .rui-toast.erro { background: #fdf2f2; border-color: #f8b4b4; color: #991b1b; }
     .rui-toast svg { flex-shrink: 0; margin-top: 1px; }
@@ -27,6 +31,8 @@
     .rui-menu button:hover { background: #f3f5f8; }
     .rui-menu .rui-sair { color: #dc2626; }
     .rui-menu .rui-sair:hover { background: #fdf2f2; }
+    .btn-conta-celular { display: none !important; }
+    @media (max-width: 900px) { .btn-conta-celular { display: flex !important; } .rui-menu button { padding: 13px 12px; font-size: 15px; } }
   `;
 
   var toastEl, menuEl, timer;
@@ -66,18 +72,35 @@
     toastEl.setAttribute("aria-live", "polite");
     document.body.appendChild(toastEl);
 
+    var ehPaciente = document.body.dataset.perfil === "paciente";
+    var temPerfil = !!(window.PerfilProfissional || window.PerfilEnfermeiro || window.PerfilRecepcao);
+
     menuEl = document.createElement("div");
     menuEl.className = "rui-menu";
     menuEl.innerHTML =
-      (document.body.dataset.perfil === "paciente"
+      (ehPaciente || temPerfil
         ? '<button type="button" data-conta>' +
           '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
-          "Minha conta</button>"
+          (temPerfil ? "Meu perfil" : "Minha conta") + "</button>"
         : "") +
       '<button type="button" class="rui-sair" data-sair>' +
       '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>' +
       "Sair da conta</button>";
     document.body.appendChild(menuEl);
+
+    // No celular o menu lateral vira barra de abas e o botao do usuario some dela:
+    // entra um botao de conta no topo, que abre o mesmo menu ("Meu perfil" / "Sair da conta").
+    var iconesTopo = document.querySelector(".icones-topo");
+    if (iconesTopo && document.querySelector(".container-user[data-menu-usuario]")) {
+      var botaoConta = document.createElement("button");
+      botaoConta.type = "button";
+      botaoConta.className = "btn-topo btn-conta-celular";
+      botaoConta.setAttribute("data-menu-usuario", "");
+      botaoConta.setAttribute("aria-label", "Opções da conta");
+      botaoConta.title = "Opções da conta";
+      botaoConta.innerHTML = '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+      iconesTopo.appendChild(botaoConta);
+    }
 
     document.querySelectorAll("[data-menu-usuario]").forEach(function (b) {
       b.addEventListener("click", function (e) {
@@ -86,8 +109,15 @@
         else abrirMenu(b);
       });
     });
-    var botaoConta = menuEl.querySelector("[data-conta]");
-    if (botaoConta) botaoConta.addEventListener("click", function () { window.location.href = PAGINA_CONTA; });
+    var itemConta = menuEl.querySelector("[data-conta]");
+    if (itemConta) itemConta.addEventListener("click", function () {
+      menuEl.classList.remove("aberto");
+      // paciente e profissional tem uma tela propria; a recepcao edita o perfil numa janela
+      if (window.PerfilProfissional) window.location.href = PAGINA_PERFIL_PROFISSIONAL;
+      else if (window.PerfilEnfermeiro) window.location.href = PAGINA_PERFIL_ENFERMEIRO;
+      else if (window.PerfilRecepcao) PerfilRecepcao.abrir();
+      else window.location.href = PAGINA_CONTA;
+    });
     menuEl.querySelector("[data-sair]").addEventListener("click", function () {
       ["perfil", "nomeUsuario", "emailUsuario"].forEach(function (k) { sessionStorage.removeItem(k); });
       window.location.href = PAGINA_LOGIN;

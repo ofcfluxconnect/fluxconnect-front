@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consulta - FluxConnect Profissional</title>
+    <script src="../compartilhado/recepcao_tema.js"></script>
+    <!-- a base e o visual sao os mesmos das telas do paciente e da recepcao -->
+    <link rel="stylesheet" href="../compartilhado/paciente_base.css" />
+    <link rel="stylesheet" href="../compartilhado/recepcao_visual.css" />
+    <link rel="stylesheet" href="../compartilhado/paciente_visual.css" />
+    <link rel="stylesheet" href="../compartilhado/profissional_visual.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../compartilhado/recepcao_tema_escuro.css" />
+    <link rel="stylesheet" href="../compartilhado/celular.css" />
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="rv" data-perfil="profissional" data-notificacoes="profissional">
+    <!-- Barra lateral do profissional -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <img src="../../midias/logo/fluxConnect_2_transparente.svg" alt="Logo FluxConnect" class="logo-fluxconnect" />
+        <div>
+          <p class="logo-nome">FluxConnect</p>
+          <p class="logo-subtitulo">Área do Profissional</p>
+        </div>
+      </div>
+
+      <nav class="nav-links" aria-label="Menu do profissional">
+        <a href="../tela_principal_profissional/index.html" class="link-ativo" aria-current="page">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Minha agenda</span>
+        </a>
+        <a href="../prontuarios_profissional/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>Prontuários</span>
+        </a>
+        <a href="../resultados_profissional/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span>Resultados</span>
+        </a>
+        <a href="../meu_perfil_profissional/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Meu Perfil</span>
+        </a>
+      </nav>
+
+      <!-- Clicar abre o menu com "Meu perfil" e "Sair da conta" -->
+      <button type="button" class="container-user" data-menu-usuario aria-label="Opções da conta" title="Opções da conta">
+        <span class="avatar-user" aria-hidden="true" data-perfil="iniciais">--</span>
+        <span class="info-user">
+          <span class="nome-user" data-perfil="nome">Profissional</span>
+          <span class="tipo-user" data-perfil="especialidade"></span>
+        </span>
+      </button>
+    </aside>
+
+    <main class="conteudo-principal">
+      <header class="topo-pagina">
+        <div>
+          <nav class="migalha" aria-label="Você está em">
+            <a href="../tela_principal_profissional/index.html" title="Minha agenda" aria-label="Voltar à agenda"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+            <span aria-hidden="true">/</span>
+            <a href="../tela_principal_profissional/index.html">Minha agenda</a>
+            <span aria-hidden="true">/</span>
+            <span>Consulta</span>
+          </nav>
+          <h1 class="titulo-pagina" id="tituloPagina">Paciente</h1>
+          <p class="subtitulo-pagina" id="subtituloPagina"><span id="txtIdadeSexo"></span> · <span id="txtPlano"></span> · Prontuário <strong id="txtProntuario"></strong></p>
+        </div>
+        <div class="topo-direita">
+          <div class="icones-topo">
+            <button type="button" class="btn-topo" title="Notificações">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="ponto-notificacao"></span>
+            </button>
+            <button type="button" class="btn-topo btn-tema" data-alternar-tema title="Usar tema escuro" aria-label="Usar tema escuro" aria-pressed="false">
+              <svg class="icone-lua" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+              <svg class="icone-sol" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"/></svg>
+            </button>
+          </div>
+          <div class="chips-consulta">
+            <span id="chipRisco"></span>
+            <span class="chip-consulta chip-andamento"><i></i> Consulta em andamento</span>
+            <span class="chip-consulta" title="Duração da consulta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg> <span id="txtCronometro">00:00</span></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="area-pagina">
+        <!-- Paciente nao encontrado -->
+        <div class="caixa estado-vazio" id="avisoErro" hidden>
+          <strong>Paciente não encontrado</strong>
+          Abra a consulta pela agenda ou pela lista de prontuários.
+          <div><a class="btn-primario" href="../tela_principal_profissional/index.html">Voltar para a agenda</a></div>
+        </div>
+
+        <div class="grade-consulta" id="formulario">
+          <!-- Acoes da consulta -->
+          <nav class="caixa acoes-consulta" aria-label="Ações da consulta">
+            <p class="painel-rotulo">Ações da consulta</p>
+            <button type="button" class="acao-consulta" id="btnAbrirReceita">
+              <span class="atalho-icone icone-azul"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+              <span><span class="acao-nome">Emitir receita</span><span class="acao-sub">Prescrição médica</span></span>
+            </button>
+            <button type="button" class="acao-consulta" id="btnAbrirExames">
+              <span class="atalho-icone icone-verde"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg></span>
+              <span><span class="acao-nome">Solicitar exames</span><span class="acao-sub">Gerar pedido de exame</span></span>
+            </button>
+            <button type="button" class="acao-consulta" id="btnHistorico">
+              <span class="atalho-icone icone-roxo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg></span>
+              <span><span class="acao-nome">Histórico</span><span class="acao-sub">Consultas e prontuário</span></span>
+            </button>
+          </nav>
+
+          <div class="coluna-consulta">
+            <!-- Alergias e condicoes -->
+            <p class="faixa-alerta" id="faixaAlerta" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span id="txtAlerta"></span></p>
+
+            <!-- Sinais vitais -->
+            <section class="caixa">
+              <button type="button" class="cabeca-lista cabeca-botao" id="btnOcultarVitais" aria-expanded="true" aria-controls="gradeVitais">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.6A2 2 0 1 0 3 6h3a2 2 0 1 0-1.8-3.4"/><path d="M4.5 6v5a5.5 5.5 0 0 0 11 0V6"/><path d="M19.5 13a2.5 2.5 0 1 0 0 5"/><path d="M22 15.5v2A4.5 4.5 0 0 1 17.5 22h-1A4.5 4.5 0 0 1 12 17.5"/></svg>
+                <span class="cabeca-textos"><span class="cabeca-titulo">Sinais vitais</span><span class="cabeca-sub">Preenchidos pela enfermagem na triagem</span></span>
+                <svg class="seta-recolher" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="grade-vitais" id="gradeVitais">
+                <label class="campo-vital"><span>Pressão arterial</span><div><input data-campo="pa" placeholder="120/80" inputmode="numeric" /><em>mmHg</em></div></label>
+                <label class="campo-vital"><span>Freq. cardíaca</span><div><input data-campo="fc" placeholder="72" inputmode="numeric" /><em>bpm</em></div></label>
+                <label class="campo-vital"><span>Temperatura</span><div><input data-campo="temp" placeholder="36,5" inputmode="decimal" /><em>°C</em></div></label>
+                <label class="campo-vital"><span>Saturação (SpO₂)</span><div><input data-campo="sat" placeholder="98" inputmode="numeric" /><em>%</em></div></label>
+                <label class="campo-vital"><span>Glicemia capilar</span><div><input data-campo="glicemia" placeholder="95" inputmode="numeric" /><em>mg/dL</em></div></label>
+                <label class="campo-vital"><span>Peso</span><div><input data-campo="peso" placeholder="70,0" inputmode="decimal" /><em>kg</em></div></label>
+                <label class="campo-vital"><span>Altura</span><div><input data-campo="altura" placeholder="1,70" inputmode="decimal" /><em>m</em></div></label>
+                <div class="rodape-vitais" id="rodapeVitais" hidden>
+                  <span>A triagem é feita pela enfermagem. Se precisar medir de novo, registre uma nova aferição.</span>
+                  <button type="button" class="btn-secundario" id="btnNovaAfericao">Registrar nova aferição</button>
+                </div>
+              </div>
+            </section>
+
+            <!-- Anamnese -->
+            <section class="caixa">
+              <div class="cabeca-lista">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <div><h2>Anamnese e evolução</h2><p>Os três campos são obrigatórios.</p></div>
+              </div>
+              <div class="campos-texto">
+                <label class="campo-form">
+                  <span class="rotulo-texto">Queixa principal <b class="obrigatorio">*</b><small data-contador="queixa">0 caracteres</small></span>
+                  <textarea data-campo="queixa" data-obrigatorio rows="3" placeholder="Descreva a queixa principal relatada pelo paciente..."></textarea>
+                </label>
+                <label class="campo-form">
+                  <span class="rotulo-texto">Histórico da doença atual <b class="obrigatorio">*</b><small data-contador="hda">0 caracteres</small></span>
+                  <textarea data-campo="hda" data-obrigatorio rows="3" placeholder="Evolução, início dos sintomas, fatores de melhora e piora, tratamentos prévios..."></textarea>
+                </label>
+                <label class="campo-form">
+                  <span class="rotulo-texto">Exame físico <b class="obrigatorio">*</b><small data-contador="exame">0 caracteres</small></span>
+                  <textarea data-campo="exame" data-obrigatorio rows="3" placeholder="Achados do exame físico: estado geral, ausculta, palpação, inspeção..."></textarea>
+                </label>
+              </div>
+            </section>
+
+            <!-- Diagnostico CID-10 -->
+            <section class="caixa caixa-cid">
+              <div class="cabeca-lista">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <div><h2>Diagnóstico — CID-10</h2><p>Obrigatório para finalizar o atendimento.</p></div>
+              </div>
+              <div class="area-cid">
+                <div class="cid-selecionado" id="cidSelecionado" hidden>
+                  <span class="cid-codigo" id="cidCodigo"></span>
+                  <span class="cid-descricao" id="cidDescricao"></span>
+                  <button type="button" class="btn-secundario" id="btnTrocarCid">Trocar</button>
+                </div>
+                <div class="busca-sugestoes" id="buscaCid">
+                  <div class="campo-busca" id="campoBuscaCid">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    <input type="search" id="inputCid" autocomplete="off" placeholder="Buscar por código ou descrição (ex: J11, diabetes...)"
+                      role="combobox" aria-expanded="false" aria-controls="listaCid" aria-autocomplete="list" aria-label="Buscar diagnóstico CID-10" />
+                  </div>
+                  <ul class="lista-sugestoes" id="listaCid" role="listbox"></ul>
+                </div>
+              </div>
+            </section>
+
+            <!-- Documentos emitidos nesta consulta -->
+            <section class="caixa" id="cardDocumentos" hidden>
+              <div class="cabeca-lista">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2"/></svg>
+                <div><h2>Documentos desta consulta</h2><p>Receitas e pedidos de exame já foram salvos no prontuário.</p></div>
+              </div>
+              <ul class="lista-documentos" id="listaDocumentos"></ul>
+            </section>
+          </div>
+        </div>
+
+        <!-- Barra de baixo: fica sempre visivel -->
+        <div class="barra-final" id="barraFinal">
+          <span class="salvo-rodape" id="salvoRodape"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12.5 10 17.5 19 7.5"/></svg> <span id="txtSalvo">Rascunho ainda não salvo</span></span>
+          <button type="button" class="btn-primario btn-grande" id="btnFinalizar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.6A2 2 0 1 0 3 6h3a2 2 0 1 0-1.8-3.4"/><path d="M4.5 6v5a5.5 5.5 0 0 0 11 0V6"/><path d="M19.5 13a2.5 2.5 0 1 0 0 5"/><path d="M22 15.5v2A4.5 4.5 0 0 1 17.5 22h-1A4.5 4.5 0 0 1 12 17.5"/></svg>
+            Finalizar Atendimento
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Janela: nova receita medica -->
+    <div class="modal-overlay" id="modalReceita">
+      <div class="modal-caixa modal-largo" role="dialog" aria-modal="true" aria-labelledby="tituloReceita">
+        <div class="modal-topo">
+          <span class="modal-icone"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+          <div>
+            <h2 class="modal-titulo" id="tituloReceita">Nova receita médica</h2>
+            <p class="modal-sub">Paciente: <span data-nome-paciente></span></p>
+          </div>
+          <button type="button" class="modal-x" data-fechar-modal aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="modal-corpo">
+          <ul class="itens-doc" id="itensReceita"></ul>
+
+          <label class="campo-form">
+            <span>Nome do medicamento</span>
+            <input type="search" id="medNome" list="listaMedicamentos" placeholder="Princípio ativo ou referência comercial..." autocomplete="off" />
+          </label>
+          <datalist id="listaMedicamentos">
+            <option value="Amoxicilina 500 mg"></option>
+            <option value="Azitromicina 500 mg"></option>
+            <option value="Dipirona 500 mg"></option>
+            <option value="Paracetamol 750 mg"></option>
+            <option value="Ibuprofeno 400 mg"></option>
+            <option value="Losartana 50 mg"></option>
+            <option value="Atorvastatina 20 mg"></option>
+            <option value="Metformina 850 mg"></option>
+            <option value="Omeprazol 20 mg"></option>
+            <option value="Loratadina 10 mg"></option>
+            <option value="Prednisona 20 mg"></option>
+            <option value="Salbutamol 100 mcg"></option>
+          </datalist>
+
+          <p class="aviso-modal aviso-laranja" id="avisoAlergia" hidden></p>
+
+          <div class="linha-campos">
+            <label class="campo-form">
+              <span>Via de administração</span>
+              <select id="medVia">
+                <option value="">Selecionar via...</option>
+                <option>Oral</option>
+                <option>Sublingual</option>
+                <option>Tópica</option>
+                <option>Inalatória</option>
+                <option>Nasal</option>
+                <option>Oftálmica</option>
+                <option>Intramuscular</option>
+                <option>Intravenosa</option>
+                <option>Subcutânea</option>
+                <option>Retal</option>
+              </select>
+            </label>
+            <label class="campo-form">
+              <span>Quantidade</span>
+              <input id="medQuantidade" autocomplete="off" placeholder="Ex: 1 caixa, 30 comp." />
+            </label>
+          </div>
+
+          <label class="campo-form">
+            <span>Instruções de uso / posologia</span>
+            <textarea id="medInstrucoes" rows="3" placeholder="Ex: Tomar 1 comprimido a cada 8 horas por 5 dias, com água..."></textarea>
+          </label>
+
+          <label class="opcao-marcar">
+            <input type="checkbox" id="medNaUnidade" />
+            <span>Aplicar na unidade <small>— entra na lista de medicação da enfermagem</small></span>
+          </label>
+
+          <button type="button" class="btn-secundario btn-largo" id="btnAdicionarMed" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span id="txtAdicionar">Adicionar à receita</span>
+          </button>
+        </div>
+        <div class="modal-rodape">
+          <span class="contagem-modal" id="txtQtdMed">Nenhum medicamento adicionado</span>
+          <button type="button" class="btn-secundario" id="btnPreviaReceita" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Pré-visualizar</button>
+          <button type="button" class="btn-primario" id="btnAssinar" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 12.5 10 17.5 19 7.5"/></svg> Salvar e assinar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Janela: solicitacao de exames -->
+    <div class="modal-overlay" id="modalExames">
+      <div class="modal-caixa modal-largo" role="dialog" aria-modal="true" aria-labelledby="tituloExames">
+        <div class="modal-topo">
+          <span class="modal-icone"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg></span>
+          <div>
+            <h2 class="modal-titulo" id="tituloExames">Solicitação de exames</h2>
+            <p class="modal-sub">Paciente: <span data-nome-paciente></span></p>
+          </div>
+          <button type="button" class="modal-x" data-fechar-modal aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="modal-corpo">
+          <div class="campo-form">
+            <span>Buscar procedimento ou exame</span>
+            <div class="busca-sugestoes">
+              <input type="search" id="inputExame" autocomplete="off" placeholder="Hemograma, Ressonância Magnética, ECG..."
+                role="combobox" aria-expanded="false" aria-controls="listaExames" aria-autocomplete="list" aria-label="Buscar exame" />
+              <ul class="lista-sugestoes" id="listaExames" role="listbox"></ul>
+            </div>
+            <small class="dica-campo">Selecione da lista ou pressione Enter para adicionar manualmente.</small>
+          </div>
+
+          <ul class="chips-exames" id="chipsExames"></ul>
+
+          <button type="button" class="btn-secundario btn-largo" id="btnAdicionarExame" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Adicionar exame</button>
+
+          <label class="campo-form campo-indicacao">
+            <span class="rotulo-texto">Indicação clínica / justificativa <b class="obrigatorio">*</b><small id="contIndicacao">0 caracteres</small></span>
+            <textarea id="inputIndicacao" rows="4" placeholder="Ex: Dores abdominais contínuas há 3 dias, febre baixa e náuseas. Solicitado para exclusão de causas infecciosas..."></textarea>
+            <small class="dica-campo">Necessário para a autorização pelo plano de saúde.</small>
+          </label>
+        </div>
+        <div class="modal-rodape">
+          <span class="contagem-modal" id="txtQtdExames">Nenhum exame selecionado</span>
+          <button type="button" class="btn-primario" id="btnGerarPedido" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg> Gerar pedido de exame</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../compartilhado/pacientes_profissional.js"></script>
+    <script src="../compartilhado/profissional_dados.js"></script>
+    <script src="../compartilhado/recepcao_layout.js"></script>
+    <script src="../compartilhado/recepcao_componentes.js"></script>
+    <script src="../compartilhado/notificacoes.js"></script>
+    <script src="../compartilhado/confirmacao.js"></script>
+    <script src="../compartilhado/perfil_profissional.js"></script>
+    <script src="../compartilhado/receita_visualizar.js"></script>
+    <script src="../compartilhado/prontuario_modal.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
