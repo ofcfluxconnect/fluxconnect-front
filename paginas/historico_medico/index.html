@@ -1,186 +1,157 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Histórico Médico - FluxConnect Paciente</title>
+    <script src="../compartilhado/recepcao_tema.js"></script>
+    <link rel="stylesheet" href="../compartilhado/paciente_base.css" />
+    <link rel="stylesheet" href="../compartilhado/recepcao_visual.css" />
+    <link rel="stylesheet" href="../compartilhado/paciente_visual.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../compartilhado/recepcao_tema_escuro.css" />
 
-<!DOCTYPE html>
-<html lang="pt-BR">
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="rv" data-perfil="paciente" data-notificacoes="paciente">
+    <!-- Barra lateral do paciente (no celular vira a barra de baixo) -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <img src="../../midias/logo/fluxConnect_2_transparente.svg" alt="Logo FluxConnect" class="logo-fluxconnect" />
+        <div>
+          <p class="logo-nome">FluxConnect</p>
+          <p class="logo-subtitulo">Portal do Paciente</p>
+        </div>
+      </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FluxConnect - Histórico Médico</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
-</head>
+      <nav class="nav-links" aria-label="Menu do paciente">
+        <a href="../tela_principal_paciente/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Início</span>
+        </a>
+        <a href="../Consultas/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.6A2 2 0 1 0 3 6h3a2 2 0 1 0-1.8-3.4"/><path d="M4.5 6v5a5.5 5.5 0 0 0 11 0V6"/><path d="M19.5 13a2.5 2.5 0 1 0 0 5"/><path d="M22 15.5v2A4.5 4.5 0 0 1 17.5 22h-1A4.5 4.5 0 0 1 12 17.5"/></svg>
+          <span>Consultas</span>
+        </a>
+        <a href="../tela_principal_paciente/tela_meus_exames/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg>
+          <span>Exames</span>
+        </a>
+        <a href="../historico_medico/index.html" class="link-ativo" aria-current="page">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><polyline points="3 3 3 8 8 8"/><polyline points="12 7 12 12 15.5 14"/></svg>
+          <span>Histórico</span>
+        </a>
+        <a href="../tela_conta_paciente/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Minha Conta</span>
+        </a>
+      </nav>
 
-<body>
-
-    <!-- Cabeçalho -->
-    <header class="cabecalho">
-        <section class="marca">
-            <img src="image.png" alt="Logo FluxConnect" class="logo">
-
-            <div>
-                <h1>FluxConnect</h1>
-                <p>Portal do Paciente</p>
-            </div>
-        </section>
-
-        <p class="caminho">Portal <span>›</span> Histórico Médico</p>
-
-        <section class="usuario">
-            <img src="../../midias/icones/perfil.svg" alt="Perfil" class="icone-topo">
-        </section>
-    </header>
-
-    <!-- Menu lateral -->
-    <aside class="menu">
-        <nav>
-            <a href="/FluxConnect_IFPI/paginas/tela_principal_paciente/index.html" class="item-menu">
-                <img src="../../midias/icones/home.svg" alt="">
-                Início
-            </a>
-
-            <a href="#" class="item-menu">
-                <img src="../../midias/icones/calendar.svg" alt="">
-                Consultas
-            </a>
-
-            <a href="#" class="item-menu">
-                <img src="../../midias/icones/exeme.svg" alt="">
-                Exames
-            </a>
-
-            <a href="#" class="item-menu ativo" aria-current="page">
-                <img src="../../midias/icones/historico.svg" alt="">
-                Histórico
-            </a>
-
-            <a href="#" class="item-menu">
-                <img src="../../midias/icones/perfil.svg" alt="">
-                Minha Conta
-            </a>
-        </nav>
-
-        <section class="perfil">
-            <span class="foto">MO</span>
-
-            <div>
-                <strong>Maria Oliveira</strong>
-                <small>Paciente</small>
-            </div>
-        </section>
+      <!-- Clicar abre o menu com "Minha conta" e "Sair da conta" -->
+      <button type="button" class="container-user" data-menu-usuario aria-label="Opções da conta" title="Opções da conta">
+        <span class="avatar-user" aria-hidden="true" data-paciente="iniciais">--</span>
+        <span class="info-user">
+          <span class="nome-user" data-paciente="nome-curto">Paciente</span>
+          <span class="tipo-user">Paciente</span>
+        </span>
+      </button>
     </aside>
 
-    <!-- Conteúdo principal -->
-    <main class="conteudo">
-        <h2>Histórico Médico</h2>
-        <p class="subtitulo">Acompanhe sua jornada de saúde</p>
+    <main class="conteudo-principal">
+      <header class="topo-pagina">
+        <div>
+          <nav class="migalha" aria-label="Você está em">
+            <a href="../tela_principal_paciente/index.html" title="Início" aria-label="Voltar ao início"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+            <span aria-hidden="true">/</span>
+            <span>Histórico</span>
+          </nav>
+          <h1 class="titulo-pagina" id="tituloPagina">Histórico Médico</h1>
+          <p class="subtitulo-pagina" id="subtituloPagina">Acompanhe sua jornada de saúde: consultas realizadas e exames com resultado.</p>
+        </div>
+        <div class="topo-direita">
+          <div class="icones-topo">
+            <button type="button" class="btn-topo" title="Notificações">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="ponto-notificacao"></span>
+            </button>
+            <button type="button" class="btn-topo btn-tema" data-alternar-tema title="Usar tema escuro" aria-label="Usar tema escuro" aria-pressed="false">
+              <svg class="icone-lua" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+              <svg class="icone-sol" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"/></svg>
+            </button>
+          </div>
+        </div>
+      </header>
 
-        <!-- Pesquisa e filtro -->
-        <section class="filtros">
-            <input
-                type="search"
-                id="pesquisa"
-                placeholder="Pesquisar por médico ou especialidade"
-                aria-label="Pesquisar por médico ou especialidade"
-            >
+      <div class="area-pagina">
+        <div class="cards-stat">
+          <div class="card-stat stat-azul">
+            <span class="stat-icone" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.6A2 2 0 1 0 3 6h3a2 2 0 1 0-1.8-3.4"/><path d="M4.5 6v5a5.5 5.5 0 0 0 11 0V6"/><path d="M19.5 13a2.5 2.5 0 1 0 0 5"/><path d="M22 15.5v2A4.5 4.5 0 0 1 17.5 22h-1A4.5 4.5 0 0 1 12 17.5"/></svg></span>
+            <span class="stat-texto">
+              <span class="stat-rotulo">Atendimentos</span>
+              <span class="stat-numero" id="numAtendimentos">0</span>
+              <span class="stat-sub">realizados</span>
+            </span>
+            <svg class="stat-grafico" id="grafAtendimentos" role="img" aria-label="Consultas realizadas por mês"><title>Consultas realizadas por mês</title></svg>
+          </div>
+          <div class="card-stat stat-roxo">
+            <span class="stat-icone" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span>
+            <span class="stat-texto">
+              <span class="stat-rotulo">Especialidades</span>
+              <span class="stat-numero" id="numEspecialidades">0</span>
+              <span class="stat-sub">já consultadas</span>
+            </span>
+          </div>
+          <div class="card-stat stat-verde">
+            <span class="stat-icone" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg></span>
+            <span class="stat-texto">
+              <span class="stat-rotulo">Último atendimento</span>
+              <span class="stat-numero stat-menor" id="numUltimo">0</span>
+              <span class="stat-sub" id="subUltimo">—</span>
+            </span>
+          </div>
+        </div>
 
-            <select id="ano" aria-label="Filtrar por ano">
-                <option value="todos">Todos os anos</option>
-                <option value="2026" selected>2026</option>
-                <option value="2025">2025</option>
-                <option value="2024">2024</option>
+        <section class="caixa" aria-label="Linha do tempo">
+          <div class="cabeca-lista">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><polyline points="3 3 3 8 8 8"/><polyline points="12 7 12 12 15.5 14"/></svg>
+            <div>
+              <h2>Linha do tempo</h2>
+              <p>Do mais recente para o mais antigo.</p>
+            </div>
+            <span class="chip-registros" id="chipRegistros"></span>
+          </div>
+          <div class="barra-ferramentas sem-linha">
+            <div class="campo-busca">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              <input type="search" autocomplete="off" id="busca" placeholder="Pesquisar por médico, especialidade ou exame" aria-label="Pesquisar por médico, especialidade ou exame" />
+            </div>
+            <select class="select-filtro" id="filtroAno" aria-label="Filtrar por ano">
+              <option value="">Todos os anos</option>
             </select>
+          </div>
+          <div class="barra-ferramentas">
+            <div class="filtros" role="group" aria-label="Tipo de registro">
+              <button type="button" class="filtro ativo" data-tipo="" aria-pressed="true">Tudo <span id="contTudo">0</span></button>
+              <button type="button" class="filtro" data-tipo="consulta" aria-pressed="false">Consultas <span id="contConsultas">0</span></button>
+              <button type="button" class="filtro" data-tipo="exame" aria-pressed="false">Exames <span id="contExames">0</span></button>
+            </div>
+          </div>
+          <div class="linha-tempo" id="linhaTempo" aria-live="polite"></div>
         </section>
-
-        <!-- Histórico de consultas -->
-        <section class="historico" id="historico">
-            <!-- Consulta 1 -->
-            <article class="consulta" data-ano="2026">
-                <span class="ponto"></span>
-
-                <div class="cartao">
-                    <h3>12 de Maio de 2026</h3>
-
-                    <p>
-                        <img src="../../midias/icones/perfil.svg" alt="" class="icone">
-                        Dr. Carlos Lima
-                    </p>
-
-                    <p>
-                        <img src="../../midias/icones/exeme.svg" alt="" class="icone">
-                        Clínica Geral
-                    </p>
-
-                    <span class="situacao">● Realizada</span>
-                </div>
-            </article>
-
-            <!-- Consulta 2 -->
-            <article class="consulta" data-ano="2026">
-                <span class="ponto"></span>
-
-                <div class="cartao">
-                    <h3>03 de Abril de 2026</h3>
-
-                    <p>
-                        <img src="../../midias/icones/perfil.svg" alt="" class="icone">
-                        Dra. Ana Paula
-                    </p>
-
-                    <p>
-                        <img src="../../midias/icones/exeme.svg" alt="" class="icone">
-                        Cardiologia
-                    </p>
-
-                    <span class="situacao">● Realizada</span>
-                </div>
-            </article>
-
-            <!-- Consulta 3 -->
-            <article class="consulta" data-ano="2026">
-                <span class="ponto"></span>
-
-                <div class="cartao">
-                    <h3>18 de Fevereiro de 2026</h3>
-
-                    <p>
-                        <img src="../../midias/icones/perfil.svg" alt="" class="icone">
-                        Dr. Ricardo Alves
-                    </p>
-
-                    <p>
-                        <img src="../../midias/icones/exeme.svg" alt="" class="icone">
-                        Ortopedia
-                    </p>
-
-                    <span class="situacao">● Realizada</span>
-                </div>
-            </article>
-
-            <!-- Consulta 4 -->
-            <article class="consulta" data-ano="2026">
-                <span class="ponto"></span>
-
-                <div class="cartao">
-                    <h3>07 de Janeiro de 2026</h3>
-
-                    <p>
-                        <img src="../../midias/icones/perfil.svg" alt="" class="icone">
-                        Dra. Fernanda Rocha
-                    </p>
-
-                    <p>
-                        <img src="../../midias/icones/exeme.svg" alt="" class="icone">
-                        Dermatologia
-                    </p>
-
-                    <span class="situacao">● Realizada</span>
-                </div>
-            </article>
-
-        </section>
-
-        <p id="semResultados" hidden>Nenhuma consulta encontrada.</p>
+      </div>
     </main>
 
-</body>
+    <script src="../compartilhado/paciente_dados.js"></script>
+    <script src="../compartilhado/recepcao_layout.js"></script>
+    <script src="../compartilhado/recepcao_componentes.js"></script>
+    <script src="../compartilhado/notificacoes.js"></script>
+    <script src="../compartilhado/paciente_componentes.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>

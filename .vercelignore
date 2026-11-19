@@ -1,0 +1,5 @@
+# So o site vai para a Vercel: paginas/ e midias/
+.github
+docs
+scripts
+*.md

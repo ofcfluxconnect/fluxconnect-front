@@ -1,0 +1,787 @@
+/* Pecas das telas do paciente, no mesmo visual das telas da recepcao.
+   Entra depois de paciente_base.css e recepcao_visual.css; vale com <body class="rv">.
+   As cores usam variaveis: o tema escuro so troca as variaveis (no fim deste arquivo). */
+
+body.rv {
+  --p-sup: #fff;          /* fundo de cartoes */
+  --p-sup2: #f5f8fc;      /* fundo suave dentro de cartoes */
+  --p-azul: #1d4ed8;
+  --p-azul-bg: #e6effe;
+  --p-verde: #0f8a45;
+  --p-verde-bg: #e0f6ea;
+  --p-laranja: #b45309;
+  --p-laranja-bg: #fef1d8;
+  --p-vermelho: #c81e1e;
+  --p-vermelho-bg: #fde8e8;
+  --p-roxo: #6d28d9;
+  --p-roxo-bg: #efe9fe;
+}
+
+/* ========== BOTOES E ETIQUETAS ========== */
+body.rv .btn-primario svg,
+body.rv .btn-secundario svg,
+body.rv .btn-perigo svg {
+  flex-shrink: 0;
+}
+
+body.rv .btn-perigo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(220, 38, 38, 0.35);
+  border-radius: 11px;
+  background: var(--p-sup);
+  color: var(--p-vermelho);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+body.rv .btn-perigo:hover:not(:disabled) {
+  background: var(--p-vermelho-bg);
+}
+
+body.rv .btn-perigo.btn-cheio {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+}
+
+body.rv .btn-perigo.btn-cheio:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+body.rv .btn-perigo:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+body.rv .badge {
+  gap: 7px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+body.rv .badge-ponto {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.badge-agendado { background: #e6effc; color: #1d4ed8; border-color: #c3d6f7; }
+
+html[data-tema="escuro"] .badge-agendado { background: #1a2536; color: #7ea2f5; border-color: #2f456a; }
+
+body.rv .icone-laranja { background: var(--p-laranja-bg); color: var(--p-laranja); }
+body.rv .icone-roxo { background: var(--p-roxo-bg); color: var(--p-roxo); }
+
+/* ========== CARDS DE RESUMO CLICAVEIS ========== */
+body.rv button.card-stat {
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+body.rv button.card-stat:hover,
+body.rv button.card-stat[aria-pressed="true"] {
+  border-color: var(--stat-cor);
+  box-shadow: 0 0 0 1px var(--stat-cor);
+}
+
+/* nos cards clicaveis (button) os textos sao <span>: cada um na sua linha */
+body.rv .stat-texto > span {
+  display: block;
+}
+
+/* card sem grafico: o numero pode ser um texto ("3 dias") */
+body.rv .stat-numero.stat-menor {
+  font-size: 28px;
+  line-height: 1.3;
+}
+
+/* ========== INICIO: CARTOES DE DESTAQUE ========== */
+body.rv .grade-dupla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 18px;
+}
+
+body.rv .card-destaque {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px;
+  background: var(--p-sup);
+  border: 1px solid var(--rv-borda);
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(15, 25, 35, 0.04);
+}
+
+body.rv .destaque-topo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+body.rv .destaque-rotulo {
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .destaque-icone {
+  margin-left: auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--p-azul-bg);
+  color: var(--p-azul);
+}
+
+body.rv .destaque-icone.verde {
+  background: var(--p-verde-bg);
+  color: var(--p-verde);
+}
+
+body.rv .destaque-titulo {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+body.rv .destaque-sub {
+  font-size: 15.5px;
+  color: var(--rv-texto-suave);
+  margin-top: 3px;
+}
+
+body.rv .lista-info {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+body.rv .lista-info li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 15.5px;
+  line-height: 1.4;
+}
+
+body.rv .lista-info svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--rv-azul);
+}
+
+body.rv .destaque-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+body.rv .destaque-acoes > * {
+  flex: 1 1 150px;
+}
+
+body.rv .destaque-vazio {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 18px 8px;
+  text-align: center;
+  font-size: 15.5px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .destaque-vazio strong {
+  font-size: 17px;
+  color: var(--rv-texto);
+}
+
+body.rv .atalhos.atalhos-quatro {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* ========== LISTA DE CARTOES (consultas e exames) ========== */
+body.rv .lista-cartoes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 22px 22px;
+}
+
+body.rv .cartao-item {
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 18px;
+  background: var(--p-sup);
+  border: 1px solid var(--rv-borda);
+  border-left: 4px solid var(--cartao-cor, var(--rv-azul));
+  border-radius: 14px;
+}
+
+body.rv .cartao-confirmada, body.rv .cartao-agendado { --cartao-cor: #1d64f2; }
+body.rv .cartao-pendente, body.rv .cartao-aguardando { --cartao-cor: #f59e0b; }
+body.rv .cartao-realizada, body.rv .cartao-disponivel { --cartao-cor: #12a150; }
+body.rv .cartao-cancelada { --cartao-cor: #ef4444; }
+
+body.rv .bloco-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 11px 8px;
+  border-radius: 12px;
+  background: var(--p-azul-bg);
+  color: var(--p-azul);
+}
+
+body.rv .bloco-dia {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+body.rv .bloco-mes {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+body.rv .bloco-hora {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--rv-texto);
+}
+
+body.rv .cartao-icone {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--p-azul-bg);
+  color: var(--p-azul);
+}
+
+body.rv .cartao-icone.laranja {
+  background: var(--p-laranja-bg);
+  color: var(--p-laranja);
+}
+
+body.rv .cartao-titulo {
+  font-size: 17.5px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+body.rv .cartao-linha {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .cartao-linha svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+body.rv .cartao-motivo {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  background: var(--p-vermelho-bg);
+  color: var(--p-vermelho);
+  font-size: 14.5px;
+}
+
+body.rv .cartao-lado {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+body.rv .cartao-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+body.rv .estado-vazio {
+  padding: 46px 22px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .estado-vazio strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 18px;
+  color: var(--rv-texto);
+}
+
+body.rv .estado-vazio .btn-primario {
+  margin-top: 16px;
+}
+
+/* ========== JANELAS (MODAIS) ========== */
+body.rv .modal-caixa {
+  max-width: 520px;
+  border-radius: 20px;
+}
+
+body.rv .modal-caixa.modal-largo {
+  max-width: 620px;
+}
+
+body.rv .modal-topo {
+  align-items: center;
+  gap: 14px;
+  padding: 22px 24px 16px;
+}
+
+body.rv .modal-titulo {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+body.rv .modal-sub {
+  font-size: 15px;
+}
+
+body.rv .modal-x {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  align-self: flex-start;
+}
+
+body.rv .modal-icone {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--p-azul-bg);
+  color: var(--p-azul);
+}
+
+body.rv .modal-icone-vermelho { background: var(--p-vermelho-bg); color: var(--p-vermelho); }
+body.rv .modal-icone-laranja { background: var(--p-laranja-bg); color: var(--p-laranja); }
+body.rv .modal-icone-verde { background: var(--p-verde-bg); color: var(--p-verde); }
+
+body.rv .modal-corpo {
+  padding: 18px 24px;
+}
+
+body.rv .modal-rodape {
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 14px 24px 20px;
+}
+
+body.rv .campo-form > span {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+body.rv .campo-form select,
+body.rv .campo-form textarea,
+body.rv .campo-form input {
+  padding: 11px 13px;
+  border-radius: 10px;
+  font-size: 15.5px;
+}
+
+body.rv .campo-form textarea {
+  resize: vertical;
+  min-height: 84px;
+}
+
+body.rv .obrigatorio {
+  color: #dc2626;
+}
+
+body.rv .contador-modal {
+  display: block;
+  margin-top: 5px;
+  text-align: right;
+  font-size: 13px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .resumo-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--p-sup2);
+}
+
+body.rv .resumo-modal > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+body.rv .resumo-modal svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--rv-azul);
+}
+
+body.rv .resumo-modal dt {
+  font-size: 13px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .resumo-modal dd {
+  font-size: 15.5px;
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+body.rv .aviso-modal {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--p-azul-bg);
+  color: var(--p-azul);
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+body.rv .aviso-modal svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+body.rv .aviso-modal.aviso-laranja {
+  background: var(--p-laranja-bg);
+  color: var(--p-laranja);
+}
+
+body.rv .subtitulo-modal {
+  margin: 16px 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+body.rv .texto-modal {
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+
+body.rv .texto-suave-modal {
+  margin-top: 12px;
+  font-size: 14.5px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .lista-preparo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 14px 22px;
+  font-size: 15.5px;
+  line-height: 1.45;
+}
+
+/* ========== WIZARD (agendar e reagendar) ========== */
+body.rv .card-wizard {
+  max-width: 720px;
+  background: var(--p-sup);
+}
+
+body.rv .rodape-wizard .btn-primario svg {
+  width: 16px;
+  height: 16px;
+}
+
+body.rv .dia.atual {
+  box-shadow: inset 0 0 0 2px #f59e0b;
+}
+
+body.rv .calendario-legenda .leg-atual {
+  box-shadow: inset 0 0 0 2px #f59e0b;
+}
+
+body.rv .pill.atual:not(.selecionado) {
+  border-color: #f59e0b;
+  color: var(--p-laranja);
+}
+
+/* ========== CELULAR: o menu lateral vira barra de baixo ========== */
+@media (max-width: 900px) {
+  body.rv[data-perfil="paciente"] {
+    flex-direction: column;
+  }
+
+  html body.rv[data-perfil="paciente"] .sidebar {
+    display: flex;
+    order: 2;
+    width: 100%;
+    height: auto;
+    flex: none;
+    border-right: none;
+    border-top: 1px solid var(--rv-borda);
+  }
+
+  body.rv[data-perfil="paciente"] .logo-container,
+  body.rv[data-perfil="paciente"] .container-user {
+    display: none;
+  }
+
+  html body.rv[data-perfil="paciente"] .nav-links {
+    flex-direction: row;
+    width: 100%;
+    gap: 2px;
+    padding: 6px;
+  }
+
+  html body.rv[data-perfil="paciente"] .nav-links a {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 56px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    padding: 0 2px;
+    font-size: 11.5px;
+    box-shadow: none;
+  }
+
+  html body.rv[data-perfil="paciente"] .nav-links a span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  html body.rv[data-perfil="paciente"] .nav-links a svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  body.rv .atalhos.atalhos-quatro {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  body.rv .lista-cartoes {
+    padding: 12px 14px 16px;
+  }
+
+  body.rv .cartao-item {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  body.rv .cartao-lado {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  body.rv .grade-dupla {
+    grid-template-columns: 1fr;
+  }
+
+  body.rv .area-wizard {
+    zoom: 1;
+    padding: 12px 12px 24px;
+  }
+}
+
+/* ========== TEMA ESCURO ========== */
+html[data-tema="escuro"] body.rv {
+  --p-sup: #172334;
+  --p-sup2: #1b2a3f;
+  --p-azul: #8bb8ff;
+  --p-azul-bg: #1c3354;
+  --p-verde: #86e0ac;
+  --p-verde-bg: #1b3728;
+  --p-laranja: #f7b96f;
+  --p-laranja-bg: #372d1a;
+  --p-vermelho: #f08a8a;
+  --p-vermelho-bg: #361919;
+  --p-roxo: #b79cf5;
+  --p-roxo-bg: #2a2148;
+}
+
+html[data-tema="escuro"] body.rv .btn-perigo {
+  border-color: rgba(240, 138, 138, 0.4);
+}
+
+html[data-tema="escuro"] body.rv .btn-perigo.btn-cheio {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+/* aviso "escolha um dia" ocupa a largura toda da grade de horarios */
+body.rv .grade-horarios .sem-horario {
+  grid-column: 1 / -1;
+}
+
+/* celular: o titulo da lista ocupa a linha toda e a contagem desce */
+@media (max-width: 600px) {
+  body.rv .cabeca-lista {
+    flex-wrap: wrap;
+    padding: 16px 16px 4px;
+  }
+
+  body.rv .cabeca-lista > svg {
+    display: none;
+  }
+
+  body.rv .cabeca-lista .chip-registros {
+    margin-left: 0;
+  }
+
+  body.rv .barra-ferramentas {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  body.rv .select-filtro,
+  body.rv .ordenar,
+  body.rv .ordenar select {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+}
+
+/* ========== CONFIRMACAO DE SUCESSO (no meio da tela, some sozinha) ========== */
+body.rv .overlay-sucesso {
+  z-index: 3200;
+  cursor: pointer;
+}
+
+body.rv .modal-caixa.modal-sucesso {
+  max-width: 420px;
+  padding: 44px 34px 38px;
+  text-align: center;
+}
+
+body.rv .overlay-sucesso.visivel .modal-sucesso {
+  animation: sucessoEntrar 0.28s ease both;
+}
+
+@keyframes sucessoEntrar {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* circulo verde com o check, que e desenhado ao aparecer */
+body.rv .modal-check-sucesso {
+  width: 74px;
+  height: 74px;
+  margin: 0 auto 22px;
+  border: 2.5px solid #b2e5d5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0fdf8;
+  color: #0f6e56;
+}
+
+body.rv .overlay-sucesso.visivel .modal-check-sucesso {
+  animation: sucessoCirculo 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+body.rv .modal-check-sucesso polyline {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+}
+
+body.rv .overlay-sucesso.visivel .modal-check-sucesso polyline {
+  animation: sucessoCheck 0.4s ease 0.25s forwards;
+}
+
+@keyframes sucessoCirculo {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes sucessoCheck {
+  to { stroke-dashoffset: 0; }
+}
+
+body.rv .modal-sucesso .modal-titulo {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+body.rv .modal-sucesso .modal-sub {
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+
+html[data-tema="escuro"] body.rv .modal-check-sucesso {
+  background: #12301f;
+  border-color: #2f6b4c;
+  color: #86e0ac;
+}
+
+/* quem pediu menos animacao ve a confirmacao pronta, sem movimento */
+@media (prefers-reduced-motion: reduce) {
+  body.rv .overlay-sucesso.visivel .modal-sucesso,
+  body.rv .overlay-sucesso.visivel .modal-check-sucesso,
+  body.rv .overlay-sucesso.visivel .modal-check-sucesso polyline {
+    animation: none;
+  }
+
+  body.rv .modal-check-sucesso polyline {
+    stroke-dashoffset: 0;
+  }
+}

@@ -43,6 +43,20 @@ function renderizar() {
   document.getElementById("numPendentes").textContent = contar("pendente");
   document.getElementById("numAguardando").textContent = contar("aguardando");
 
+  // graficos dos cards: quantas consultas de hoje em cada horario
+  function serie(filtro) {
+    return Recepcao.horarios().map(function (h) {
+      return deHoje.filter(function (x) { return x.hora === h && filtro(x); }).length;
+    });
+  }
+  // a soma dos pontos de cada grafico e o numero mostrado no card
+  var porHora = { rotulos: Recepcao.horarios(), unidade: ["consulta", "consultas"] };
+  RecepcaoComp.grafico(document.getElementById("grafTotal"), serie(function (x) { return x.status !== "cancelada"; }), porHora);
+  RecepcaoComp.grafico(document.getElementById("grafConfirmadas"), serie(function (x) { return x.status === "confirmada"; }), porHora);
+  RecepcaoComp.grafico(document.getElementById("grafPendentes"), serie(function (x) { return x.status === "pendente"; }), porHora);
+  RecepcaoComp.grafico(document.getElementById("grafAguardando"), serie(function (x) { return x.status === "aguardando"; }),
+    { rotulos: Recepcao.horarios(), unidade: ["paciente", "pacientes"] });
+
   // agenda de hoje agrupada por horario (de 30 em 30 minutos):
   // cada horario aparece uma vez so; as consultas daquele horario ficam embaixo dele
   // (rowspan). Horario sem consulta vira uma linha "livre" com atalho para agendar.

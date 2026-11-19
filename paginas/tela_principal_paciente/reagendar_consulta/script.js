@@ -1,181 +1,133 @@
-/**
- * FluxConnect - Portal do Paciente
- * Fluxo de Reagendamento de Consulta
- */
+// Reagendar Consulta: escolhe a nova data e hora e confirma a troca.
+// Abre com ?id=<consulta> (e ?volta=inicio para voltar ao Inicio em vez de Minhas Consultas).
+// Sem id, usa a proxima consulta do paciente. Uma consulta cancelada tambem pode ser remarcada.
 
-document.addEventListener("DOMContentLoaded", () => {
-  // --------------------------------------------------------------------------
-  // ELEMENTOS DO DOM
-  // --------------------------------------------------------------------------
-  const btnVoltarTopo = document.getElementById("btnVoltarTopo");
+var TOTAL_PASSOS = 2;
+var e = Paciente.escapar;
+var icone = PacienteUI.icone;
 
-  // Stepper
-  const stepCircle3 = document.getElementById("stepCircle3");
-  const stepIcone3 = document.getElementById("stepIcone3");
-  const stepLinha3to4 = document.getElementById("stepLinha3to4");
-  const stepCircle4 = document.getElementById("stepCircle4");
+var parametros = new URLSearchParams(location.search);
+var PAGINA_VOLTA = parametros.get("volta") === "inicio"
+  ? Paciente.url("tela_principal_paciente/index.html")
+  : Paciente.url("Consultas/index.html");
 
-  // Passo 3
-  const passo3Reagendamento = document.getElementById("passo3Reagendamento");
-  const gridDiasReagendamento = document.getElementById("gridDiasReagendamento");
-  const secaoHorariosDisponiveis = document.getElementById("secaoHorariosDisponiveis");
-  const gridHorariosPills = document.getElementById("gridHorariosPills");
-  const btnAvancarPasso3 = document.getElementById("btnAvancarPasso3");
+var consulta = parametros.get("id") ? Paciente.obterConsulta(parametros.get("id")) : Paciente.proximas()[0];
+if (consulta && consulta.status === "realizada") consulta = null;
 
-  // Passo 4
-  const passo4Reagendamento = document.getElementById("passo4Reagendamento");
-  const confTextoDataHoraAtual = document.getElementById("confTextoDataHoraAtual");
-  const confTextoDataHoraNova = document.getElementById("confTextoDataHoraNova");
-  const btnVoltarPasso4 = document.getElementById("btnVoltarPasso4");
-  const btnConfirmarReagendamentoFinal = document.getElementById("btnConfirmarReagendamentoFinal");
+// consulta cancelada nao tem "data atual" para destacar
+var cancelada = consulta && consulta.status === "cancelada";
+var estado = { passo: 1, data: null, hora: null, enviado: false };
 
-  // Toast
-  const toastReagendamentoSucesso = document.getElementById("toastReagendamentoSucesso");
-  const toastReagendamentoMsg = document.getElementById("toastReagendamentoMsg");
+function podeAvancar() {
+  if (estado.enviado) return false;
+  return estado.passo === 1 ? !!(estado.data && estado.hora) : true;
+}
 
-  // --------------------------------------------------------------------------
-  // ESTADO
-  // --------------------------------------------------------------------------
-  let passoAtual = 3;
-  let diaSelecionado = null;
-  let diaSemanaSelecionado = "Quarta-feira";
-  let horaSelecionada = null;
+function atualizarRodape() {
+  document.getElementById("btnProximo").disabled = !podeAvancar();
+  document.getElementById("txtProximo").textContent = estado.passo === TOTAL_PASSOS ? "Confirmar reagendamento" : "Próximo";
+  document.getElementById("txtPasso").textContent = "Passo " + estado.passo + " de " + TOTAL_PASSOS;
+}
 
-  // --------------------------------------------------------------------------
-  // NAVEGAÇÃO ENTRE PASSOS
-  // --------------------------------------------------------------------------
-  function irParaPasso(passo) {
-    passoAtual = passo;
+function mostrarPasso(numero) {
+  estado.passo = numero;
+  document.querySelectorAll("#stepper li").forEach(function (li) {
+    var n = +li.dataset.passo;
+    li.classList.toggle("ativo", n === numero);
+    li.classList.toggle("concluido", n < numero);
+    if (n === numero) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
+    li.querySelector(".circulo").innerHTML = n < numero
+      ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+      : n;
+  });
+  document.querySelectorAll(".passo").forEach(function (p) {
+    p.classList.toggle("ativo", +p.dataset.passo === numero);
+  });
+  if (numero === 2) desenharComparacao();
+  atualizarRodape();
+}
 
-    if (passo === 3) {
-      passo3Reagendamento.style.display = "flex";
-      passo4Reagendamento.style.display = "none";
+function desenharHorarios() {
+  var titulo = document.getElementById("tituloHorarios");
+  var grade = document.getElementById("gradeHorarios");
+  var aviso = document.getElementById("avisoFeriado");
+  if (!estado.data) {
+    titulo.textContent = "Horários";
+    grade.innerHTML = '<p class="sem-horario">Escolha um dia no calendário para ver os horários.</p>';
+    aviso.hidden = true;
+    return;
+  }
 
-      // Stepper Passo 3
-      stepCircle3.className = "step-circle ativo";
-      stepIcone3.textContent = "3";
-      stepLinha3to4.className = "step-linha";
-      stepCircle4.className = "step-circle pendente";
-    } else if (passo === 4) {
-      passo3Reagendamento.style.display = "none";
-      passo4Reagendamento.style.display = "flex";
+  var d = Paciente.lerISO(estado.data);
+  titulo.textContent = "Horários para " + d.getDate() + " de " + Paciente.meses[d.getMonth()];
+  var feriado = PacienteUI.feriadoDe(estado.data);
+  aviso.hidden = !feriado;
+  if (feriado) aviso.textContent = descreverFeriado(feriado) + ". Confirme o funcionamento da clínica antes de ir.";
 
-      // Stepper Passo 4 (Passo 3 fica com checkmark ✓)
-      stepCircle3.className = "step-circle concluido";
-      stepIcone3.innerHTML = `
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-      `;
-      stepLinha3to4.className = "step-linha concluido";
-      stepCircle4.className = "step-circle ativo";
-
-      // Atualiza textos do card comparativo
-      confTextoDataHoraAtual.textContent = "14 de Junho de 2026 · 10:30";
-      confTextoDataHoraNova.textContent = `${diaSelecionado} de Junho de 2026 · ${horaSelecionada}`;
+  PacienteUI.horarios(grade, {
+    data: estado.data,
+    selecionado: estado.hora,
+    ignorarId: consulta.id,
+    atual: !cancelada && estado.data === consulta.data ? consulta.hora : null,
+    aoEscolher: function (hora) {
+      estado.hora = hora;
+      desenharHorarios();
+      atualizarRodape();
     }
+  });
+}
+
+function desenharComparacao() {
+  var medico = e(consulta.medico) + " · " + e(consulta.especialidade);
+  document.getElementById("comparacao").innerHTML =
+    '<div class="bloco-comparacao antigo"><p class="comp-rotulo">' + (cancelada ? "Consulta cancelada" : "Consulta atual") + "</p>" +
+      '<p class="comp-data">' + Paciente.dataLonga(consulta.data) + " · " + consulta.hora + '</p><p class="comp-texto">' + medico + "</p></div>" +
+    '<span class="comp-seta" aria-hidden="true">' + icone("seta", 16) + "</span>" +
+    '<div class="bloco-comparacao novo"><p class="comp-rotulo">Nova consulta</p>' +
+      '<p class="comp-data">' + Paciente.dataLonga(estado.data) + " · " + estado.hora + '</p><p class="comp-texto">' + medico + "</p></div>";
+}
+
+function confirmar() {
+  Paciente.reagendarConsulta(consulta.id, estado.data, estado.hora);
+  estado.enviado = true;
+  atualizarRodape();
+  document.getElementById("btnVoltar").disabled = true;
+  PacienteUI.sucesso("Consulta reagendada com sucesso", "Nova data: " + Paciente.dataExtenso(estado.data) + " às " + estado.hora + ".",
+    function () { window.location.href = PAGINA_VOLTA; });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  if (!consulta) {
+    document.getElementById("cardWizard").hidden = true;
+    document.getElementById("semConsulta").hidden = false;
+    return;
   }
 
-  // Botão Voltar do Header
-  if (btnVoltarTopo) {
-    btnVoltarTopo.addEventListener("click", () => {
-      if (passoAtual === 4) {
-        irParaPasso(3);
-      } else {
-        window.location.href = "../index.html";
-      }
-    });
-  }
+  document.getElementById("avisoReagendar").innerHTML = icone("reagendar", 16) +
+    "<span>" + (cancelada ? "Remarcando" : "Reagendando") + " consulta com <strong>" + e(consulta.medico) + " — " + e(consulta.especialidade) + "</strong>" +
+    (cancelada ? "." : ", marcada para " + Paciente.formatarData(consulta.data) + " às " + consulta.hora + ".") + "</span>";
 
-  // Botão Voltar do Passo 4
-  if (btnVoltarPasso4) {
-    btnVoltarPasso4.addEventListener("click", () => {
-      irParaPasso(3);
-    });
-  }
+  PacienteUI.calendario(document.getElementById("calendario"), {
+    mes: !cancelada && Paciente.diasAte(consulta.data) >= 0 ? consulta.data : null,
+    atual: cancelada ? null : consulta.data,
+    aoEscolher: function (dataISO) {
+      estado.data = dataISO;
+      estado.hora = null; // trocar o dia pede um novo horario
+      desenharHorarios();
+      atualizarRodape();
+    }
+  });
+  desenharHorarios();
 
-  // --------------------------------------------------------------------------
-  // PASSO 3: SELEÇÃO DE DIA E HORÁRIO
-  // --------------------------------------------------------------------------
-  const diasDisponiveis = gridDiasReagendamento.querySelectorAll(".dia-disponivel");
-  diasDisponiveis.forEach((item) => {
-    item.addEventListener("click", () => {
-      diasDisponiveis.forEach((d) => d.classList.remove("selecionado"));
-      item.classList.add("selecionado");
-
-      diaSelecionado = item.getAttribute("data-dia");
-      diaSemanaSelecionado = item.getAttribute("data-dia-semana") || "Quarta-feira";
-
-      // Exibe seção de horários
-      secaoHorariosDisponiveis.style.display = "flex";
-
-      // Reseta horário selecionado se trocar de data
-      horaSelecionada = null;
-      btnAvancarPasso3.disabled = true;
-      btnAvancarPasso3.classList.remove("habilitado");
-
-      const pills = gridHorariosPills.querySelectorAll(".pill-horario");
-      pills.forEach((p) => p.classList.remove("selecionado"));
-    });
+  document.getElementById("btnVoltar").addEventListener("click", function () {
+    if (estado.passo === 1) window.location.href = PAGINA_VOLTA;
+    else mostrarPasso(estado.passo - 1);
+  });
+  document.getElementById("btnProximo").addEventListener("click", function () {
+    if (!podeAvancar()) return;
+    if (estado.passo === TOTAL_PASSOS) confirmar();
+    else mostrarPasso(estado.passo + 1);
   });
 
-  const pillsHorario = gridHorariosPills.querySelectorAll(".pill-horario");
-  pillsHorario.forEach((pill) => {
-    pill.addEventListener("click", () => {
-      pillsHorario.forEach((p) => p.classList.remove("selecionado"));
-      pill.classList.add("selecionado");
-
-      horaSelecionada = pill.getAttribute("data-hora");
-
-      // Habilita botão Avançar
-      btnAvancarPasso3.disabled = false;
-      btnAvancarPasso3.classList.add("habilitado");
-    });
-  });
-
-  if (btnAvancarPasso3) {
-    btnAvancarPasso3.addEventListener("click", () => {
-      if (diaSelecionado && horaSelecionada) {
-        irParaPasso(4);
-      }
-    });
-  }
-
-  // --------------------------------------------------------------------------
-  // PASSO 4: CONFIRMAÇÃO DO REAGENDAMENTO
-  // --------------------------------------------------------------------------
-  if (btnConfirmarReagendamentoFinal) {
-    btnConfirmarReagendamentoFinal.addEventListener("click", () => {
-      // Salva no localStorage para a tela principal ler e exibir os novos dados
-      const dadosConsulta = {
-        medico: "Dr. Carlos Lima",
-        especialidade: "Clínico Geral",
-        dataCompleta: `${diaSemanaSelecionado}, ${diaSelecionado} de Junho de 2026`,
-        horaCompleta: `${horaSelecionada} · Duração estimada 30 min`,
-        local: "Clínica FluxMed — Rua Defala Attem, 1200",
-        atualizado: true
-      };
-
-      try {
-        localStorage.setItem("fluxconnect_proxima_consulta", JSON.stringify(dadosConsulta));
-      } catch (e) {
-        console.error("Erro ao salvar no localStorage", e);
-      }
-
-      // Mostra o Toast de sucesso
-      mostrarToast(
-        `Nova data: ${diaSemanaSelecionado}, ${diaSelecionado} de Junho de 2026 às ${horaSelecionada}.`
-      );
-
-      // Redireciona de volta para a tela principal do paciente após 1.8 segundos
-      setTimeout(() => {
-        window.location.href = "../index.html";
-      }, 1800);
-    });
-  }
-
-  function mostrarToast(mensagem) {
-    toastReagendamentoMsg.textContent = mensagem;
-    toastReagendamentoSucesso.classList.add("visivel");
-  }
+  mostrarPasso(1);
 });

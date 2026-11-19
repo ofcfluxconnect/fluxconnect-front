@@ -1,9 +1,13 @@
-// Partes comuns das telas da recepcao:
+// Partes comuns das telas da recepcao (e do paciente):
 // - menu do usuario na barra lateral (com "Sair da conta")
 // - aviso rapido (toast) com titulo e texto: RecepcaoUI.toast("Titulo", "Texto")
+// Nas telas do paciente (<body data-perfil="paciente">) o menu ganha o item "Minha conta".
 
 (function () {
-  var PAGINA_LOGIN = "../tela_login/fluxconnect_login_enxuto/index.html";
+  // enderecos montados a partir deste arquivo: funcionam em telas de qualquer pasta
+  var BASE = document.currentScript ? document.currentScript.src : location.href;
+  var PAGINA_LOGIN = new URL("../tela_login/fluxconnect_login_enxuto/index.html", BASE).href;
+  var PAGINA_CONTA = new URL("../tela_conta_paciente/index.html", BASE).href;
 
   var estilos = `
     .rui-toast { position: fixed; top: 18px; right: 18px; z-index: 3000; display: flex; gap: 10px; max-width: 340px;
@@ -46,8 +50,9 @@
   function abrirMenu(botao) {
     var r = botao.getBoundingClientRect();
     menuEl.classList.add("aberto");
-    menuEl.style.left = (r.left + 8) + "px";
-    menuEl.style.top = Math.max(8, r.top - menuEl.offsetHeight - 6) + "px";
+    var acima = r.top - menuEl.offsetHeight - 6;
+    menuEl.style.left = Math.max(8, Math.min(r.left + 8, window.innerWidth - menuEl.offsetWidth - 8)) + "px";
+    menuEl.style.top = (acima >= 8 ? acima : r.bottom + 6) + "px";
   }
 
   function iniciar() {
@@ -64,6 +69,11 @@
     menuEl = document.createElement("div");
     menuEl.className = "rui-menu";
     menuEl.innerHTML =
+      (document.body.dataset.perfil === "paciente"
+        ? '<button type="button" data-conta>' +
+          '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
+          "Minha conta</button>"
+        : "") +
       '<button type="button" class="rui-sair" data-sair>' +
       '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>' +
       "Sair da conta</button>";
@@ -76,6 +86,8 @@
         else abrirMenu(b);
       });
     });
+    var botaoConta = menuEl.querySelector("[data-conta]");
+    if (botaoConta) botaoConta.addEventListener("click", function () { window.location.href = PAGINA_CONTA; });
     menuEl.querySelector("[data-sair]").addEventListener("click", function () {
       ["perfil", "nomeUsuario", "emailUsuario"].forEach(function (k) { sessionStorage.removeItem(k); });
       window.location.href = PAGINA_LOGIN;
