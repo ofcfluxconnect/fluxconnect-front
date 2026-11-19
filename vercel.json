@@ -32,7 +32,7 @@
       ]
     },
     {
-      "source": "/paginas/(.*)",
+      "source": "/paginas/(.*)\\.html",
       "headers": [
         {
           "key": "Cache-Control",
@@ -41,11 +41,29 @@
       ]
     },
     {
+      "source": "/paginas/(.*)\\.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/paginas/(.*)\\.(css|js)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
       "source": "/midias/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=86400"
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
         }
       ]
     }

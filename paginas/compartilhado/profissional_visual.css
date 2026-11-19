@@ -1,0 +1,292 @@
+/* Pecas das telas do profissional, no mesmo visual das telas da recepcao e do paciente.
+   Entra depois de paciente_base.css, recepcao_visual.css e paciente_visual.css
+   (as variaveis --p-... e o tema escuro vem de paciente_visual.css). */
+
+body.rv .cards-stat {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+body.rv .cards-quatro {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* titulo pequeno em maiusculas dentro de um painel */
+body.rv .painel-rotulo {
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--rv-texto-suave);
+}
+
+/* ========== ALERGIAS E CONDICOES ========== */
+body.rv .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+body.rv .tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: var(--p-laranja-bg);
+  color: var(--p-laranja);
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+body.rv .tag-alergia {
+  background: var(--p-vermelho-bg);
+  color: var(--p-vermelho);
+}
+
+body.rv .tag-neutra {
+  background: var(--p-sup2);
+  color: var(--rv-texto-suave);
+}
+
+body.rv .sem-tags {
+  font-size: 14.5px;
+  color: var(--rv-texto-suave);
+}
+
+/* ========== TABELAS ========== */
+body.rv .tabela .btn-compacto {
+  height: 40px;
+  padding: 0 14px;
+  font-size: 14.5px;
+}
+
+body.rv .tabela .acoes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+body.rv .tabela th.col-acoes,
+body.rv .tabela td.col-acoes {
+  width: 190px;
+}
+
+/* bolinha azul: resultado ainda nao lido */
+body.rv .ponto-novo {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #1d64f2;
+  vertical-align: middle;
+}
+
+/* ========== JANELAS (receita, exames, laudo) ========== */
+body.rv .linha-campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+body.rv .btn-largo {
+  width: 100%;
+}
+
+body.rv .contagem-modal {
+  margin-right: auto;
+  font-size: 14.5px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .dica-campo {
+  display: block;
+  margin-top: 5px;
+  font-size: 13px;
+  color: var(--rv-texto-suave);
+}
+
+/* rotulo com o contador de caracteres a direita */
+body.rv .campo-form > .rotulo-texto {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+body.rv .rotulo-texto small {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .invalido,
+body.rv .campo-busca.invalido {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+/* ========== BUSCA COM SUGESTOES (CID-10 e exames) ========== */
+body.rv .busca-sugestoes {
+  position: relative;
+}
+
+body.rv .lista-sugestoes {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  display: none;
+  max-height: 280px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 6px;
+  background: var(--p-sup);
+  border: 1px solid var(--rv-borda);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(15, 25, 35, 0.14);
+}
+
+body.rv .lista-sugestoes.aberta {
+  display: block;
+}
+
+body.rv .sugestao {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+body.rv .sugestao strong {
+  flex-shrink: 0;
+  min-width: 52px;
+  color: var(--p-azul);
+}
+
+body.rv .sugestao:hover,
+body.rv .sugestao.ativa {
+  background: var(--p-azul-bg);
+}
+
+@media (max-width: 640px) {
+  body.rv .linha-campos {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* a contagem ("2 medicamentos adicionados") encolhe para os botoes caberem na mesma linha */
+body.rv .modal-rodape .contagem-modal {
+  flex: 1 1 140px;
+  min-width: 0;
+}
+
+/* =====================================================================
+   ENFERMAGEM (usado tambem pelas telas do medico)
+   ===================================================================== */
+/* ---------- etiqueta da classificacao de risco ---------- */
+body.rv .tag-risco {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--risco-fundo);
+  color: var(--risco-texto);
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+body.rv .tag-risco i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--risco-cor);
+}
+
+/* versao curta: so a bolinha (o nome fica na dica e para leitores de tela) */
+body.rv .tag-risco-curta {
+  padding: 6px;
+  background: transparent;
+}
+
+body.rv .tag-risco-curta i {
+  width: 12px;
+  height: 12px;
+  box-shadow: 0 0 0 3px var(--risco-fundo);
+}
+
+body.rv .risco-vermelho { --risco-cor: #dc2626; --risco-fundo: #fde8e8; --risco-texto: #b91c1c; }
+body.rv .risco-laranja { --risco-cor: #f97316; --risco-fundo: #ffedd5; --risco-texto: #c2410c; }
+body.rv .risco-amarelo { --risco-cor: #eab308; --risco-fundo: #fef9c3; --risco-texto: #a16207; }
+body.rv .risco-verde { --risco-cor: #16a34a; --risco-fundo: #e3f7ec; --risco-texto: #15803d; }
+body.rv .risco-azul { --risco-cor: #2563eb; --risco-fundo: #e6effc; --risco-texto: #1d4ed8; }
+
+html[data-tema="escuro"] body.rv .risco-vermelho { --risco-fundo: #361919; --risco-texto: #f08a8a; }
+html[data-tema="escuro"] body.rv .risco-laranja { --risco-fundo: #3a2413; --risco-texto: #fdba74; }
+html[data-tema="escuro"] body.rv .risco-amarelo { --risco-fundo: #3d3a1d; --risco-texto: #f8c77f; }
+html[data-tema="escuro"] body.rv .risco-verde { --risco-fundo: #1b3728; --risco-texto: #99eeb9; }
+html[data-tema="escuro"] body.rv .risco-azul { --risco-fundo: #1c3354; --risco-texto: #8bb8ff; }
+
+/* ---------- caixa de marcar com texto (ex.: "Aplicar na unidade") ---------- */
+body.rv .opcao-marcar {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 4px 0 14px;
+  font-size: 15.5px;
+  cursor: pointer;
+}
+
+body.rv .opcao-marcar input {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  accent-color: #1259c3;
+}
+
+body.rv .opcao-marcar small {
+  font-size: 14px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .aviso-modal.aviso-vermelho {
+  background: var(--p-vermelho-bg);
+  color: var(--p-vermelho);
+}
+
+/* ---------- cartoes das listas da enfermagem ---------- */
+/* horario em destaque no bloco da esquerda */
+body.rv .bloco-data .bloco-dia.bloco-horario {
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+
+body.rv .cartao-alerta {
+  color: var(--p-vermelho);
+  font-weight: 600;
+}
+
+body.rv .cartao-registro {
+  color: var(--p-verde);
+  font-weight: 500;
+}
+
+body.rv .cartao-triado { --cartao-cor: #1d64f2; }
+body.rv .cartao-em-atendimento, body.rv .cartao-coletado, body.rv .cartao-realizado { --cartao-cor: #12a150; }
+body.rv .cartao-finalizado { --cartao-cor: #65a30d; }
+body.rv .cartao-cancelado { --cartao-cor: #ef4444; }
+body.rv .cartao-solicitado { --cartao-cor: #f59e0b; }
+body.rv .cartao-com-alerta { --cartao-cor: #dc2626; }
+
+body.rv .cartao-lado .tags {
+  justify-content: flex-end;
+}

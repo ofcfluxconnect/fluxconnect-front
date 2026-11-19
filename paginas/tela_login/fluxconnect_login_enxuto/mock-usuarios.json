@@ -9,6 +9,22 @@
       "paginaInicial": "../../tela_principal_paciente/index.html"
     },
     {
+      "email": "profissional@fluxconnect.test",
+      "senha": "Teste123!",
+      "ativo": true,
+      "perfil": "profissional",
+      "nome": "Profissional de Teste",
+      "paginaInicial": "../../tela_principal_profissional/index.html"
+    },
+    {
+      "email": "enfermeiro@fluxconnect.test",
+      "senha": "Teste123!",
+      "ativo": true,
+      "perfil": "enfermeiro",
+      "nome": "Enfermeiro de Teste",
+      "paginaInicial": "../../tela_principal_enfermeiro/index.html"
+    },
+    {
       "email": "recepcionista@fluxconnect.test",
       "senha": "Teste123!",
       "ativo": true,

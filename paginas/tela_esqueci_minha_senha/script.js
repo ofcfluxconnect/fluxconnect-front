@@ -1,154 +1,144 @@
-//Voltar p página de login
-const voltarParaLogin = document.getElementById("voltarParaLogin");
+// Recuperacao de senha (simulacao, sem backend), em duas telas:
+//   esqueci_senha.html -> confere se o e-mail existe em mock-usuarios.json
+//   nova_senha.html    -> guarda a nova senha no navegador ("senhasAtualizadas"), que o login consulta
+// Este arquivo serve as duas telas: cada bloco so roda se o formulario dele existir.
 
-voltarParaLogin.addEventListener("click", function () {
-    window.location.href = "../tela_login/fluxconnect_login_enxuto/index.html";
-});
+var PAGINA_LOGIN = "../tela_login/fluxconnect_login_enxuto/index.html";
+var ARQUIVO_USUARIOS = "../tela_login/fluxconnect_login_enxuto/mock-usuarios.json";
 
-
-//Validar email de recuperacao e segur pra proxima pagina(fazer nova senha)
-const formularioEmail = document.querySelector("#recuperacao");
-
-if (formularioEmail) {
-    const campoEmail = document.querySelector("#email");
-    const mensagem = document.querySelector("#mensagem");
-
-    formularioEmail.addEventListener("submit", async function (evento) {
-        evento.preventDefault();
-
-        const valorEmail = campoEmail.value.trim().toLowerCase();
-
-        mensagem.textContent = "Verificando e-mail...";
-        mensagem.style.color = "#1557d9";
-        try {
-            const resposta = await fetch("../tela_login/fluxconnect_login_enxuto/mock-usuarios.json");
-
-            if (!resposta.ok) {
-                throw new Error("Não foi possível carregar o JSON.");
-            }
-
-            const dados = await resposta.json();
-            const usuario = dados.usuarios.find(function (item) {
-                return item.email.toLowerCase() === valorEmail
-                    && item.ativo === true;
-            });
-
-            if (usuario) {
-                sessionStorage.setItem(
-                    "emailRecuperacao",
-                    usuario.email
-                );
-
-                mensagem.textContent = "E-mail encontrado! Redirecionando...";
-                mensagem.style.color = "#16803c";
-                window.location.href = "nova_senha.html";
-            } else {
-                mensagem.textContent =
-                    "E-mail não encontrado ou conta inativa.";
-                mensagem.style.color = "#d93025";
-            }
-        } catch (erro) {
-            console.error("Erro ao verificar e-mail:", erro);
-
-            mensagem.textContent =
-                "Não foi possível verificar o e-mail. Verifique o servidor local.";
-            mensagem.style.color = "#d93025";
-        }
-    });
+// Mostra um aviso no elemento indicado. tipo: "erro", "sucesso" ou nada (informacao).
+function avisar(elemento, texto, tipo) {
+  elemento.textContent = texto;
+  elemento.className = "mensagem" + (tipo ? " " + tipo : "");
+  elemento.hidden = false;
 }
 
-//Ocultar e mostrar senha
-const botoesMostrarSenha = document.querySelectorAll(".mostrarSenha");
+// Marca em vermelho o campo com problema e leva o cursor ate ele.
+function apontar(campo) {
+  campo.closest(".entrada").classList.add("invalido");
+  campo.setAttribute("aria-invalid", "true");
+  campo.focus();
+}
 
-botoesMostrarSenha.forEach(function (botao) {
-    botao.addEventListener("click", function () {
-        const campoSenha = botao.parentElement.querySelector("input");
-        const iconeOlho = botao.querySelector(".iconeOlho");
+function limparMarcas() {
+  document.querySelectorAll(".entrada.invalido").forEach(function (e) { e.classList.remove("invalido"); });
+  document.querySelectorAll("[aria-invalid]").forEach(function (c) { c.removeAttribute("aria-invalid"); });
+}
 
-        const mostrar = campoSenha.type === "password";
+document.querySelectorAll(".entrada input").forEach(function (campo) {
+  campo.addEventListener("input", limparMarcas);
+});
 
-        campoSenha.type = mostrar ? "text" : "password";
-
-        iconeOlho.src = mostrar
-            ? "../../midias/icones/ver-senha.svg"
-            : "../../midias/icones/ocultar-senha.svg";
-
-        botao.setAttribute(
-            "aria-label",
-            mostrar ? "Ocultar senha" : "Mostrar senha"
-        );
-
-        botao.setAttribute("aria-pressed", String(mostrar));
-    });
+// Mostrar e ocultar senha
+document.querySelectorAll("[data-ver-senha]").forEach(function (botao) {
+  botao.addEventListener("click", function () {
+    var campo = botao.parentElement.querySelector("input");
+    var mostrar = campo.type === "password";
+    campo.type = mostrar ? "text" : "password";
+    botao.setAttribute("aria-label", mostrar ? "Ocultar senha" : "Mostrar senha");
+    botao.setAttribute("aria-pressed", String(mostrar));
+  });
 });
 
 
-//Validar e guardar senha no storage do navegador
+// ---------- 1. Esqueci minha senha: confere o e-mail ----------
+var formularioEmail = document.querySelector("#recuperacao");
 
-const formularioSenha = document.querySelector(".senhas");
+if (formularioEmail) {
+  var campoEmail = document.querySelector("#email");
+  var mensagem = document.querySelector("#mensagem");
+  var botaoEnviar = document.querySelector("#btnEnviar");
+
+  formularioEmail.addEventListener("submit", async function (evento) {
+    evento.preventDefault();
+    limparMarcas();
+
+    var valorEmail = campoEmail.value.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valorEmail)) {
+      avisar(mensagem, "Digite um endereço de e-mail válido.", "erro");
+      apontar(campoEmail);
+      return;
+    }
+
+    avisar(mensagem, "Verificando e-mail...");
+    botaoEnviar.disabled = true;
+    try {
+      var resposta = await fetch(ARQUIVO_USUARIOS);
+      if (!resposta.ok) throw new Error("Não foi possível carregar o JSON.");
+      var dados = await resposta.json();
+      var usuario = dados.usuarios.find(function (item) {
+        return item.email.toLowerCase() === valorEmail && item.ativo === true;
+      });
+
+      if (usuario) {
+        sessionStorage.setItem("emailRecuperacao", usuario.email);
+        avisar(mensagem, "E-mail encontrado! Redirecionando...", "sucesso");
+        window.location.href = "nova_senha.html";
+        return; // o botao continua desabilitado enquanto a proxima tela carrega
+      }
+
+      avisar(mensagem, "E-mail não encontrado ou conta inativa.", "erro");
+      apontar(campoEmail);
+    } catch (erro) {
+      console.error("Erro ao verificar e-mail:", erro);
+      avisar(mensagem, "Não foi possível verificar o e-mail. Verifique o servidor local.", "erro");
+    }
+    botaoEnviar.disabled = false;
+  });
+}
+
+
+// ---------- 2. Nova senha: valida e guarda no navegador ----------
+var formularioSenha = document.querySelector("#formNovaSenha");
 
 if (formularioSenha) {
-    const senhaNova = document.querySelector("#senhaNova");
-    const confirmarSenha = document.querySelector("#confirmarNovaSenha");
-    const mensagemSenha = document.querySelector("#mensagemSenha");
+  var senhaNova = document.querySelector("#senhaNova");
+  var confirmarSenha = document.querySelector("#confirmarNovaSenha");
+  var mensagemSenha = document.querySelector("#mensagemSenha");
+  var emailRecuperacao = sessionStorage.getItem("emailRecuperacao");
 
-    formularioSenha.addEventListener("submit", function (evento) {
-        evento.preventDefault();
+  if (emailRecuperacao) {
+    document.querySelector("#textoConta").textContent = "Conta: " + emailRecuperacao + ". Escolha uma senha diferente das que você já usou.";
+  }
 
-        const emailRecuperacao =
-            sessionStorage.getItem("emailRecuperacao");
+  formularioSenha.addEventListener("submit", function (evento) {
+    evento.preventDefault();
+    limparMarcas();
 
-        // Confere se existe uma recuperação iniciada.
-        if (!emailRecuperacao) {
-            mensagemSenha.textContent =
-                "Inicie o processo pela tela de recuperação de senha.";
-            mensagemSenha.style.color = "#d93025";
-            return;
-        }
+    // so vale se a recuperacao foi iniciada pela tela anterior
+    emailRecuperacao = sessionStorage.getItem("emailRecuperacao");
+    if (!emailRecuperacao) {
+      avisar(mensagemSenha, "Inicie o processo pela tela de recuperação de senha.", "erro");
+      return;
+    }
 
-        const novaSenha = senhaNova.value;
-        const confirmacao = confirmarSenha.value;
+    var novaSenha = senhaNova.value;
+    var confirmacao = confirmarSenha.value;
 
-        if (!novaSenha || !confirmacao) {
-            mensagemSenha.textContent =
-                "Preencha os dois campos de senha.";
-            mensagemSenha.style.color = "#d93025";
-            return;
-        }
+    if (!novaSenha || !confirmacao) {
+      avisar(mensagemSenha, "Preencha os dois campos de senha.", "erro");
+      apontar(!novaSenha ? senhaNova : confirmarSenha);
+      return;
+    }
+    if (novaSenha.length < 8) {
+      avisar(mensagemSenha, "A senha deve ter pelo menos 8 caracteres.", "erro");
+      apontar(senhaNova);
+      return;
+    }
+    if (novaSenha !== confirmacao) {
+      avisar(mensagemSenha, "As senhas não coincidem.", "erro");
+      apontar(confirmarSenha);
+      return;
+    }
 
-        if (novaSenha.length < 8) {
-            mensagemSenha.textContent =
-                "A senha deve ter pelo menos 8 caracteres.";
-            mensagemSenha.style.color = "#d93025";
-            senhaNova.focus();
-            return;
-        }
+    var senhasAtualizadas = JSON.parse(localStorage.getItem("senhasAtualizadas") || "{}");
+    senhasAtualizadas[emailRecuperacao.toLowerCase()] = novaSenha;
+    localStorage.setItem("senhasAtualizadas", JSON.stringify(senhasAtualizadas));
+    sessionStorage.removeItem("emailRecuperacao");
 
-        if (novaSenha !== confirmacao) {
-            mensagemSenha.textContent =
-                "As senhas não coincidem.";
-            mensagemSenha.style.color = "#d93025";
-            confirmarSenha.focus();
-            return;
-        }
-
-        const senhasAtualizadas = JSON.parse(
-            localStorage.getItem("senhasAtualizadas") || "{}"
-        );
-
-        senhasAtualizadas[emailRecuperacao.toLowerCase()] = novaSenha;
-
-        localStorage.setItem(
-            "senhasAtualizadas",
-            JSON.stringify(senhasAtualizadas)
-        );
-
-        sessionStorage.removeItem("emailRecuperacao");
-
-        mensagemSenha.textContent =
-            "Senha alterada com sucesso! Você já pode voltar ao login.";
-        mensagemSenha.style.color = "#16803c";
-
-        formularioSenha.reset();
-    });
+    formularioSenha.reset();
+    document.querySelector("#btnSalvar").disabled = true;
+    avisar(mensagemSenha, "Senha alterada com sucesso! Voltando para o login...", "sucesso");
+    setTimeout(function () { window.location.href = PAGINA_LOGIN; }, 1800);
+  });
 }

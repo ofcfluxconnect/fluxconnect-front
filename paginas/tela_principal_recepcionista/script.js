@@ -1,8 +1,6 @@
 // Painel da recepcao: resumo do dia, agenda de hoje e proximos agendamentos.
 // Os alertas do dia aparecem no sininho de notificacoes (todas as telas da recepcao).
 
-// nome generico: a recepcao pode ter varias recepcionistas usando o mesmo acesso
-var NOME_RECEPCIONISTA = "Recepcionista";
 var PAGINA_NOVO = "../novo_agendamento_recepcionista/index.html";
 
 var diasSemana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
@@ -19,11 +17,12 @@ function badge(status) {
   return '<span class="badge badge-' + status + '">' + Recepcao.rotulosStatus[status] + "</span>";
 }
 
-function montarTopo() {
+// o nome vem do "Meu perfil" (compartilhado/perfil_recepcao.js)
+function montarTopo(perfil) {
   var h = new Date().getHours();
   var saudacao = h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite";
   var d = Recepcao.hoje();
-  document.getElementById("tituloPagina").textContent = saudacao + ", " + NOME_RECEPCIONISTA;
+  document.getElementById("tituloPagina").textContent = saudacao + ", " + perfil.nome;
   document.getElementById("subtituloPagina").textContent =
     diasSemana[d.getDay()] + ", " + String(d.getDate()).padStart(2, "0") + " de " + meses[d.getMonth()] + " de " + d.getFullYear();
 }
@@ -108,7 +107,7 @@ function renderizar() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  montarTopo();
+  PerfilRecepcao.aoAtualizar(montarTopo); // refaz a saudacao quando o perfil muda
   renderizar();
 
 });

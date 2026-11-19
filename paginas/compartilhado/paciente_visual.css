@@ -247,7 +247,8 @@ body.rv .cartao-item {
   border-radius: 14px;
 }
 
-body.rv .cartao-confirmada, body.rv .cartao-agendado { --cartao-cor: #1d64f2; }
+body.rv .cartao-confirmada { --cartao-cor: #12a150; }
+body.rv .cartao-agendado { --cartao-cor: #1d64f2; }
 body.rv .cartao-pendente, body.rv .cartao-aguardando { --cartao-cor: #f59e0b; }
 body.rv .cartao-realizada, body.rv .cartao-disponivel { --cartao-cor: #12a150; }
 body.rv .cartao-cancelada { --cartao-cor: #ef4444; }
@@ -559,58 +560,8 @@ body.rv .pill.atual:not(.selecionado) {
   color: var(--p-laranja);
 }
 
-/* ========== CELULAR: o menu lateral vira barra de baixo ========== */
+/* ========== CELULAR: pecas do paciente (a estrutura geral fica em celular.css) ========== */
 @media (max-width: 900px) {
-  body.rv[data-perfil="paciente"] {
-    flex-direction: column;
-  }
-
-  html body.rv[data-perfil="paciente"] .sidebar {
-    display: flex;
-    order: 2;
-    width: 100%;
-    height: auto;
-    flex: none;
-    border-right: none;
-    border-top: 1px solid var(--rv-borda);
-  }
-
-  body.rv[data-perfil="paciente"] .logo-container,
-  body.rv[data-perfil="paciente"] .container-user {
-    display: none;
-  }
-
-  html body.rv[data-perfil="paciente"] .nav-links {
-    flex-direction: row;
-    width: 100%;
-    gap: 2px;
-    padding: 6px;
-  }
-
-  html body.rv[data-perfil="paciente"] .nav-links a {
-    flex: 1 1 0;
-    min-width: 0;
-    height: 56px;
-    flex-direction: column;
-    justify-content: center;
-    gap: 3px;
-    padding: 0 2px;
-    font-size: 11.5px;
-    box-shadow: none;
-  }
-
-  html body.rv[data-perfil="paciente"] .nav-links a span {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%;
-  }
-
-  html body.rv[data-perfil="paciente"] .nav-links a svg {
-    width: 21px;
-    height: 21px;
-  }
 
   body.rv .atalhos.atalhos-quatro {
     grid-template-columns: repeat(2, 1fr);
@@ -700,88 +651,247 @@ body.rv .grade-horarios .sem-horario {
   }
 }
 
-/* ========== CONFIRMACAO DE SUCESSO (no meio da tela, some sozinha) ========== */
-body.rv .overlay-sucesso {
-  z-index: 3200;
-  cursor: pointer;
+/* =====================================================================
+   TELA DE CONTA / PERFIL
+   "Minha Conta" do paciente e "Meu perfil" do profissional: cartao do
+   perfil, secoes de dados, preferencias (chaves) e saida da conta.
+   ===================================================================== */
+body.rv .card-perfil {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 22px 24px;
+  background: var(--p-sup);
+  border: 1px solid var(--rv-borda);
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(15, 25, 35, 0.04);
 }
 
-body.rv .modal-caixa.modal-sucesso {
-  max-width: 420px;
-  padding: 44px 34px 38px;
-  text-align: center;
-}
-
-body.rv .overlay-sucesso.visivel .modal-sucesso {
-  animation: sucessoEntrar 0.28s ease both;
-}
-
-@keyframes sucessoEntrar {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to { opacity: 1; transform: none; }
-}
-
-/* circulo verde com o check, que e desenhado ao aparecer */
-body.rv .modal-check-sucesso {
-  width: 74px;
-  height: 74px;
-  margin: 0 auto 22px;
-  border: 2.5px solid #b2e5d5;
+body.rv .avatar-perfil {
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f0fdf8;
-  color: #0f6e56;
+  flex-shrink: 0;
+  background: #1259c3;
+  color: #fff;
+  font-size: 23px;
+  font-weight: 700;
 }
 
-body.rv .overlay-sucesso.visivel .modal-check-sucesso {
-  animation: sucessoCirculo 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+body.rv .perfil-textos {
+  flex: 1 1 200px;
+  min-width: 0;
 }
 
-body.rv .modal-check-sucesso polyline {
-  stroke-dasharray: 24;
-  stroke-dashoffset: 24;
-}
-
-body.rv .overlay-sucesso.visivel .modal-check-sucesso polyline {
-  animation: sucessoCheck 0.4s ease 0.25s forwards;
-}
-
-@keyframes sucessoCirculo {
-  from { transform: scale(0.5); opacity: 0; }
-  to { transform: none; opacity: 1; }
-}
-
-@keyframes sucessoCheck {
-  to { stroke-dashoffset: 0; }
-}
-
-body.rv .modal-sucesso .modal-titulo {
+body.rv .perfil-nome {
   font-size: 22px;
-  margin-bottom: 10px;
+  font-weight: 700;
 }
 
-body.rv .modal-sucesso .modal-sub {
+body.rv .perfil-email {
+  margin-top: 3px;
   font-size: 15.5px;
-  line-height: 1.5;
+  color: var(--rv-texto-suave);
+  overflow-wrap: anywhere;
 }
 
-html[data-tema="escuro"] body.rv .modal-check-sucesso {
-  background: #12301f;
-  border-color: #2f6b4c;
-  color: #86e0ac;
+body.rv .perfil-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
 }
 
-/* quem pediu menos animacao ve a confirmacao pronta, sem movimento */
-@media (prefers-reduced-motion: reduce) {
-  body.rv .overlay-sucesso.visivel .modal-sucesso,
-  body.rv .overlay-sucesso.visivel .modal-check-sucesso,
-  body.rv .overlay-sucesso.visivel .modal-check-sucesso polyline {
-    animation: none;
+body.rv .perfil-desde {
+  font-size: 14.5px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .grade-secoes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+body.rv .card-secao {
+  padding: 20px 22px 22px;
+}
+
+body.rv .card-largo {
+  grid-column: 1 / -1;
+}
+
+body.rv .secao-titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+body.rv .secao-titulo svg {
+  color: var(--rv-azul);
+  flex-shrink: 0;
+}
+
+body.rv .lista-dados {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+body.rv .lista-endereco {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+body.rv .lista-dados > div {
+  padding: 12px 14px;
+  border-radius: 11px;
+  background: var(--p-sup2);
+  min-width: 0;
+}
+
+body.rv .lista-dados dt {
+  font-size: 13.5px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .lista-dados dd {
+  margin-top: 3px;
+  font-size: 16px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+body.rv .dado-com-acao {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+body.rv .dado-com-acao .cpf-mascarado {
+  font-size: 16px;
+  color: inherit;
+}
+
+body.rv .btn-mostrar {
+  border: none;
+  background: transparent;
+  color: var(--rv-azul-forte);
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+body.rv .btn-mostrar:hover {
+  text-decoration: underline;
+}
+
+/* preferencias: texto a esquerda e chave liga/desliga a direita */
+body.rv .linha-preferencia {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid var(--rv-borda);
+}
+
+body.rv .secao-titulo + .linha-preferencia {
+  border-top: none;
+  padding-top: 0;
+}
+
+body.rv .linha-preferencia:last-child {
+  padding-bottom: 0;
+}
+
+body.rv .pref-nome {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+body.rv .pref-texto {
+  margin-top: 2px;
+  font-size: 14.5px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .chave {
+  position: relative;
+  width: 52px;
+  height: 30px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 999px;
+  background: #c3cbd6;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+body.rv .chave span {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(15, 25, 35, 0.25);
+  transition: transform 0.15s ease;
+}
+
+body.rv .chave[aria-checked="true"] {
+  background: #2563eb;
+}
+
+body.rv .chave[aria-checked="true"] span {
+  transform: translateX(22px);
+}
+
+html[data-tema="escuro"] body.rv .chave[aria-checked="false"] {
+  background: #3a4b62;
+}
+
+body.rv .card-sair {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 20px 22px;
+}
+
+body.rv .sair-titulo {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+body.rv .sair-texto {
+  margin-top: 3px;
+  font-size: 15px;
+  color: var(--rv-texto-suave);
+}
+
+@media (max-width: 900px) {
+  body.rv .grade-secoes,
+  body.rv .lista-dados,
+  body.rv .lista-endereco {
+    grid-template-columns: 1fr;
   }
 
-  body.rv .modal-check-sucesso polyline {
-    stroke-dashoffset: 0;
+  body.rv .perfil-meta {
+    align-items: flex-start;
+  }
+
+  /* o menu lateral vira barra de baixo no celular: nao ha o que recolher */
+  body.rv #linhaMenu {
+    display: none;
   }
 }

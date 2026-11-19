@@ -6,7 +6,7 @@
 (function () {
   var estilos = `
     .cp-overlay { position: fixed; inset: 0; z-index: 2200; display: none; align-items: center; justify-content: center; padding: 16px;
-      background: rgba(15, 25, 35, 0.45); backdrop-filter: blur(2px); font-family: "Inter", sans-serif; }
+      background: rgba(15, 25, 35, 0.45); font-family: "Inter", sans-serif; }
     .cp-overlay.visivel { display: flex; }
     .cp-caixa { width: 100%; max-width: 640px; max-height: 92vh; display: flex; flex-direction: column; background: #fff; border-radius: 18px;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2); overflow: hidden; text-align: left; animation: cpAparecer 0.2s ease; }

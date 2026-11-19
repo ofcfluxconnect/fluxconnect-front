@@ -1,0 +1,12 @@
+/* Fila de triagem (enfermeiro): so o que e exclusivo desta tela.
+   O restante vem de compartilhado/ (paciente_base, recepcao_visual, paciente_visual, profissional_visual). */
+
+/* paciente cancelado ou ja finalizado aparece apagado na lista "Todos" */
+body.rv .cartao-cancelado .cartao-titulo,
+body.rv .cartao-finalizado .cartao-titulo {
+  color: var(--rv-texto-suave);
+}
+
+body.rv .cartao-cancelado .cartao-titulo {
+  text-decoration: line-through;
+}

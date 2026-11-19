@@ -28,8 +28,7 @@
   var estilos = `
     .notif-overlay {
       position: fixed; inset: 0; z-index: 2000;
-      background: rgba(15, 25, 35, 0.45); backdrop-filter: blur(2px);
-      display: none; align-items: center; justify-content: center; padding: 16px;
+      background: rgba(15, 25, 35, 0.45);      display: none; align-items: center; justify-content: center; padding: 16px;
     }
     .notif-overlay.visivel { display: flex; }
     .notif-caixa {

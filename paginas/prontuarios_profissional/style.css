@@ -1,0 +1,16 @@
+/* Prontuarios (profissional): so o que e exclusivo desta tela.
+   O restante vem de compartilhado/ (paciente_base, recepcao_visual, paciente_visual, profissional_visual). */
+
+body.rv .tabela-prontuarios .pessoa-nome {
+  white-space: nowrap;
+}
+
+body.rv .tabela-prontuarios .cid {
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--p-azul);
+}
+
+body.rv .tabela-prontuarios .tags {
+  max-width: 340px;
+}

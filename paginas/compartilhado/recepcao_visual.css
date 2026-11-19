@@ -286,6 +286,9 @@ body.rv .stat-grafico {
 body.rv .stat-azul { --stat-cor: #1d64f2; --stat-fundo: #e6effe; --stat-texto-cor: #1d4ed8; }
 body.rv .stat-verde { --stat-cor: #12a150; --stat-fundo: #e0f6ea; --stat-texto-cor: #0f8a45; }
 body.rv .stat-laranja { --stat-cor: #f59e0b; --stat-fundo: #fef1d8; --stat-texto-cor: #b45309; }
+body.rv .stat-amarelo { --stat-cor: #eab308; --stat-fundo: #fef9c3; --stat-texto-cor: #a16207; } /* aguardando e pendente */
+/* so o icone em roxo (estetica); texto e grafico do card continuam na cor do status */
+body.rv .icone-stat-roxo .stat-icone { background: #7c3aed; box-shadow: 0 0 0 7px #efe9fe; }
 body.rv .stat-vermelho { --stat-cor: #ef4444; --stat-fundo: #fde6e6; --stat-texto-cor: #dc2626; }
 
 /* ========== CAIXAS ========== */
@@ -1194,7 +1197,6 @@ html[data-tema="escuro"] body.rv .btn-tema .icone-lua {
 body.rv .sidebar {
   position: relative;
   z-index: 20;
-  transition: width 0.2s ease, flex-basis 0.2s ease;
 }
 
 /* botao redondo na borda do menu */

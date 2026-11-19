@@ -1,0 +1,442 @@
+/* Minha Agenda (profissional): so o que e exclusivo desta tela.
+   O restante vem de compartilhado/ (paciente_base, recepcao_visual, paciente_visual, profissional_visual). */
+
+/* agenda a esquerda, paciente a direita */
+body.rv .grade-agenda {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ========== LISTA DE HORARIOS ========== */
+body.rv .lista-agenda {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 22px 22px;
+}
+
+body.rv .linha-agenda {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+body.rv .hora-agenda {
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--rv-azul-forte);
+}
+
+body.rv .card-agenda {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: var(--p-sup);
+  border: 1px solid var(--rv-borda);
+  border-left: 4px solid var(--card-cor, #94a3b8);
+  border-radius: 12px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+body.rv .card-agenda:hover {
+  box-shadow: 0 4px 14px rgba(15, 25, 35, 0.07);
+}
+
+body.rv .card-agenda.selecionado {
+  border-color: var(--rv-azul);
+  box-shadow: 0 0 0 1px var(--rv-azul);
+  background: var(--p-azul-bg);
+}
+
+body.rv .status-aguardando { --card-cor: #f59e0b; }
+body.rv .status-em-atendimento { --card-cor: #12a150; }
+body.rv .status-triado { --card-cor: #1d64f2; }
+body.rv .status-finalizado { --card-cor: #65a30d; }
+body.rv .status-cancelado { --card-cor: #ef4444; }
+
+body.rv .status-cancelado .nome-paciente {
+  text-decoration: line-through;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .card-agenda .avatar-pessoa {
+  width: 44px;
+  height: 44px;
+  font-size: 15px;
+}
+
+body.rv .info-paciente {
+  flex: 1;
+  min-width: 0;
+}
+
+body.rv .nome-paciente {
+  display: block;
+  font-size: 16.5px;
+  font-weight: 600;
+}
+
+body.rv .detalhe-paciente {
+  display: block;
+  margin-top: 2px;
+  font-size: 14.5px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .seta-card {
+  flex-shrink: 0;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .card-vago {
+  justify-content: center;
+  border-style: dashed;
+  border-left-width: 1px;
+  background: transparent;
+  color: var(--rv-texto-suave);
+  font-size: 15px;
+  font-style: italic;
+  cursor: default;
+}
+
+body.rv .card-vago:hover {
+  box-shadow: none;
+}
+
+/* ========== PAINEL DO PACIENTE ========== */
+body.rv .painel-paciente {
+  position: sticky;
+  top: 16px;
+  padding: 20px 22px 22px;
+}
+
+body.rv .paciente-destaque {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 14px 0 16px;
+  text-align: center;
+}
+
+body.rv .avatar-grande {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+body.rv .paciente-nome {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+body.rv .paciente-info {
+  font-size: 15px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .paciente-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+body.rv .grade-dados {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+body.rv .dado {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--p-sup2);
+  min-width: 0;
+}
+
+body.rv .dado-largo {
+  grid-column: 1 / -1;
+}
+
+body.rv .dado dt {
+  font-size: 13px;
+  color: var(--rv-texto-suave);
+}
+
+body.rv .dado dd {
+  margin-top: 2px;
+  font-size: 15.5px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+body.rv .dado .texto-alerta {
+  color: var(--p-vermelho);
+}
+
+body.rv .painel-botoes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+body.rv .painel-botoes > * {
+  width: 100%;
+  height: 48px;
+}
+
+body.rv .painel-vazio {
+  padding: 26px 6px 8px;
+  text-align: center;
+  font-size: 15.5px;
+  color: var(--rv-texto-suave);
+}
+
+@media (max-width: 1250px) {
+  body.rv .grade-agenda {
+    grid-template-columns: 1fr;
+  }
+
+  /* em tela estreita o paciente vem antes da lista */
+  body.rv .painel-paciente {
+    position: static;
+    order: -1;
+  }
+}
+
+/* =====================================================================
+   TELA PARADA: so a lista de horarios rola
+   O cabecalho, os cards de resumo e o painel do paciente ficam sempre no
+   mesmo lugar. Antes a pagina inteira rolava e o painel acompanhava.
+   ===================================================================== */
+body.rv .conteudo-principal {
+  overflow: hidden;
+}
+
+body.rv .area-pagina {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+body.rv .grade-agenda {
+  flex: 1 1 0;
+  min-height: 0;
+  align-items: stretch;
+}
+
+body.rv .grade-agenda > .caixa {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+body.rv .grade-agenda .caixa-cabeca,
+body.rv .grade-agenda .barra-ferramentas {
+  flex-shrink: 0;
+}
+
+body.rv .lista-agenda {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain; /* chegar ao fim da lista nao arrasta o resto da tela */
+  scrollbar-gutter: stable;     /* a barra de rolagem nao empurra os cartoes ao aparecer */
+}
+
+body.rv .painel-paciente {
+  position: static;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ---------- sem efeitos de movimento ---------- */
+body.rv .card-agenda {
+  transition: none;
+}
+
+body.rv .card-agenda:hover {
+  box-shadow: none;
+  border-color: #93b4e8;
+  border-left-color: var(--card-cor, #94a3b8);
+}
+
+body.rv .card-agenda.selecionado,
+body.rv .card-agenda.selecionado:hover {
+  border-color: var(--rv-azul);
+  box-shadow: 0 0 0 1px var(--rv-azul);
+}
+
+body.rv .card-vago:hover {
+  border-color: var(--rv-borda);
+}
+
+/* ---------- painel com altura estavel ---------- */
+/* cada dado ocupa uma linha so; o texto completo aparece ao passar o mouse */
+body.rv .dado dd {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body.rv .paciente-nome,
+body.rv .paciente-info {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* tela baixa ou estreita: nao cabe tudo parado, entao a pagina volta a rolar inteira */
+@media (max-width: 1250px), (max-height: 759px) {
+  body.rv .conteudo-principal {
+    overflow-y: auto;
+  }
+
+  body.rv .area-pagina,
+  body.rv .grade-agenda {
+    flex: none;
+  }
+
+  body.rv .lista-agenda {
+    flex: none;
+    overflow: visible;
+  }
+
+  body.rv .painel-paciente {
+    overflow: visible;
+  }
+}
+
+/* ---------- painel compacto: cabe inteiro sem rolar ---------- */
+/* avatar ao lado do nome (antes ficava em cima, ocupando mais altura) */
+body.rv .paciente-destaque {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  margin: 12px 0 14px;
+  text-align: left;
+}
+
+body.rv .paciente-textos {
+  flex: 1;
+  min-width: 0;
+}
+
+body.rv .avatar-grande {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 0;
+  font-size: 21px;
+}
+
+body.rv .paciente-tags {
+  justify-content: flex-start;
+  margin-top: 6px;
+}
+
+body.rv .grade-dados {
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+body.rv .dado {
+  padding: 8px 12px;
+}
+
+/* notebook (tela baixa): cards de resumo e painel mais enxutos, para sobrar altura para a lista */
+@media (max-height: 900px) {
+  body.rv .topo-pagina {
+    padding-top: 16px;
+    padding-bottom: 6px;
+  }
+
+  body.rv .migalha {
+    margin-bottom: 6px;
+  }
+
+  body.rv .titulo-pagina {
+    font-size: 28px;
+  }
+
+  body.rv .subtitulo-pagina {
+    margin-top: 4px;
+  }
+
+  body.rv .area-pagina {
+    gap: 14px;
+    padding-top: 10px;
+    padding-bottom: 16px;
+  }
+
+  body.rv .card-stat {
+    min-height: 84px;
+    padding: 12px 16px;
+  }
+
+  body.rv .stat-icone {
+    width: 44px;
+    height: 44px;
+    box-shadow: 0 0 0 5px var(--stat-fundo);
+  }
+
+  body.rv .stat-icone svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  body.rv .stat-numero {
+    font-size: 30px;
+  }
+
+  body.rv .grade-agenda .caixa-cabeca {
+    padding: 12px 22px;
+  }
+
+  body.rv .grade-agenda .barra-ferramentas {
+    padding: 10px 22px;
+  }
+
+  body.rv .lista-agenda {
+    padding-top: 12px;
+    padding-bottom: 14px;
+  }
+
+  body.rv .painel-paciente {
+    padding: 16px 18px;
+  }
+
+  /* os dois botoes lado a lado */
+  body.rv .painel-botoes {
+    flex-direction: row;
+  }
+
+  body.rv .painel-botoes > * {
+    flex: 1 1 0;
+    width: auto;
+    height: 44px;
+    padding: 0 10px;
+    font-size: 14.5px;
+  }
+}

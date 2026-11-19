@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meu Perfil - FluxConnect Enfermagem</title>
+    <script src="../compartilhado/recepcao_tema.js"></script>
+    <!-- a base e o visual sao os mesmos das outras visoes -->
+    <link rel="stylesheet" href="../compartilhado/paciente_base.css" />
+    <link rel="stylesheet" href="../compartilhado/recepcao_visual.css" />
+    <link rel="stylesheet" href="../compartilhado/paciente_visual.css" />
+    <link rel="stylesheet" href="../compartilhado/profissional_visual.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../compartilhado/recepcao_tema_escuro.css" />
+    <link rel="stylesheet" href="../compartilhado/celular.css" />
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="rv" data-perfil="enfermeiro" data-notificacoes="enfermeiro">
+    <!-- Barra lateral do enfermeiro (no celular vira a barra de abas) -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <img src="../../midias/logo/fluxConnect_2_transparente.svg" alt="Logo FluxConnect" class="logo-fluxconnect" />
+        <div>
+          <p class="logo-nome">FluxConnect</p>
+          <p class="logo-subtitulo">Enfermagem</p>
+        </div>
+      </div>
+
+      <nav class="nav-links" aria-label="Menu da enfermagem">
+        <a href="../tela_principal_enfermeiro/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span>Triagem</span>
+        </a>
+        <a href="../coletas_enfermeiro/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"/><path d="M14 9.3V2"/><path d="M8.5 2h7"/><path d="M14 9.3a6.5 6.5 0 1 1-4 0"/><path d="M5.52 16h12.96"/></svg>
+          <span>Coletas</span>
+        </a>
+        <a href="../procedimentos_enfermeiro/index.html">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3a2.4 2.4 0 0 1-3.4 0l-.6-.6a2.4 2.4 0 0 1 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></svg>
+          <span>Medicação</span>
+        </a>
+        <a href="../meu_perfil_enfermeiro/index.html" class="link-ativo" aria-current="page">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Meu Perfil</span>
+        </a>
+      </nav>
+
+      <!-- Clicar abre o menu com "Meu perfil" e "Sair da conta" -->
+      <button type="button" class="container-user" data-menu-usuario aria-label="Opções da conta" title="Opções da conta">
+        <span class="avatar-user" aria-hidden="true" data-perfil="iniciais">--</span>
+        <span class="info-user">
+          <span class="nome-user" data-perfil="nome">Enfermeiro</span>
+          <span class="tipo-user" data-perfil="especialidade"></span>
+        </span>
+      </button>
+    </aside>
+
+    <main class="conteudo-principal">
+      <header class="topo-pagina">
+        <div>
+          <nav class="migalha" aria-label="Você está em">
+            <a href="../tela_principal_enfermeiro/index.html" title="Triagem" aria-label="Voltar à fila de triagem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+            <span aria-hidden="true">/</span>
+            <span>Meu Perfil</span>
+          </nav>
+          <h1 class="titulo-pagina" id="tituloPagina">Meu Perfil</h1>
+          <p class="subtitulo-pagina" id="subtituloPagina">Veja os dados do seu cadastro e ajuste suas preferências.</p>
+        </div>
+        <div class="topo-direita">
+          <div class="icones-topo">
+            <button type="button" class="btn-topo" title="Notificações">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span class="ponto-notificacao"></span>
+            </button>
+            <button type="button" class="btn-topo btn-tema" data-alternar-tema title="Usar tema escuro" aria-label="Usar tema escuro" aria-pressed="false">
+              <svg class="icone-lua" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+              <svg class="icone-sol" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"/></svg>
+            </button>
+          </div>
+          <button type="button" class="btn-primario btn-grande" id="btnEditarPerfil">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            Editar Perfil
+          </button>
+        </div>
+      </header>
+
+      <div class="area-pagina">
+        <!-- Cabecalho do perfil -->
+        <section class="card-perfil" aria-label="Perfil">
+          <span class="avatar-perfil" data-perfil="iniciais" aria-hidden="true">--</span>
+          <div class="perfil-textos">
+            <p class="perfil-nome" data-perfil="nome">Enfermeiro</p>
+            <p class="perfil-email" id="perfilEmail"></p>
+          </div>
+          <div class="perfil-meta">
+            <span class="badge badge-agendado">Enfermagem</span>
+            <span class="perfil-desde" id="perfilCrm"></span>
+          </div>
+        </section>
+
+        <div class="grade-secoes">
+          <section class="caixa card-secao" aria-labelledby="secPessoais">
+            <h2 class="secao-titulo" id="secPessoais"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Dados pessoais</h2>
+            <dl class="lista-dados">
+              <div><dt>Nome completo</dt><dd id="dadoNome"></dd></div>
+              <div>
+                <dt>CPF</dt>
+                <dd class="dado-com-acao">
+                  <span id="dadoCpf" class="cpf-mascarado"></span>
+                  <button type="button" class="btn-mostrar" id="btnMostrarCpf" aria-pressed="false">Mostrar</button>
+                </dd>
+              </div>
+              <div><dt>Data de nascimento</dt><dd id="dadoNascimento"></dd></div>
+              <div><dt>Telefone de contato</dt><dd id="dadoTelefone"></dd></div>
+            </dl>
+          </section>
+
+          <section class="caixa card-secao" aria-labelledby="secProfissionais">
+            <h2 class="secao-titulo" id="secProfissionais"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h2"/><path d="M15 12h2"/><path d="M7 16h10"/></svg> Dados profissionais</h2>
+            <dl class="lista-dados">
+              <div><dt>Área</dt><dd id="dadoEspecialidade"></dd></div>
+              <div><dt>Registro (COREN)</dt><dd id="dadoCrm"></dd></div>
+              <div><dt>E-mail de acesso</dt><dd id="dadoEmail"></dd></div>
+              <div><dt>Triagens hoje</dt><dd id="dadoAtendimentos"></dd></div>
+            </dl>
+          </section>
+
+          <section class="caixa card-secao card-largo" aria-labelledby="secPreferencias">
+            <h2 class="secao-titulo" id="secPreferencias"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg> Preferências</h2>
+            <div class="linha-preferencia">
+              <div>
+                <p class="pref-nome">Tema escuro</p>
+                <p class="pref-texto">Deixa as telas com fundo escuro, mais confortável à noite.</p>
+              </div>
+              <button type="button" class="chave" id="chaveTema" role="switch" aria-checked="false" aria-label="Tema escuro"><span></span></button>
+            </div>
+            <div class="linha-preferencia" id="linhaMenu">
+              <div>
+                <p class="pref-nome">Menu recolhido</p>
+                <p class="pref-texto">Mostra só os ícones no menu lateral, deixando mais espaço para o conteúdo.</p>
+              </div>
+              <button type="button" class="chave" id="chaveMenu" role="switch" aria-checked="false" aria-label="Menu recolhido"><span></span></button>
+            </div>
+          </section>
+        </div>
+
+        <!-- Senha -->
+        <section class="caixa card-sair" aria-labelledby="secSenha">
+          <div>
+            <h2 class="sair-titulo" id="secSenha">Senha de acesso</h2>
+            <p class="sair-texto">Troque a senha que você usa para entrar no portal.</p>
+          </div>
+          <button type="button" class="btn-secundario" id="btnAlterarSenha">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Alterar senha
+          </button>
+        </section>
+
+        <!-- Sair da conta -->
+        <section class="caixa card-sair" aria-labelledby="secSair">
+          <div>
+            <h2 class="sair-titulo" id="secSair">Sair da conta</h2>
+            <p class="sair-texto">Encerra a sessão neste navegador. Você precisará entrar novamente para acessar o portal.</p>
+          </div>
+          <button type="button" class="btn-perigo" id="btnSair">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sair da conta
+          </button>
+        </section>
+      </div>
+    </main>
+
+    <!-- Janela: confirmar a saida -->
+    <div class="modal-overlay" id="modalSair">
+      <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="tituloSair">
+        <div class="modal-topo">
+          <span class="modal-icone modal-icone-vermelho"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
+          <div>
+            <h2 class="modal-titulo" id="tituloSair">Deseja sair da sua conta?</h2>
+            <p class="modal-sub">Você será levado para a tela de login.</p>
+          </div>
+          <button type="button" class="modal-x" data-fechar-modal aria-label="Fechar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="modal-corpo">
+          <p class="texto-modal">As triagens e os registros já salvos continuam no prontuário.</p>
+        </div>
+        <div class="modal-rodape">
+          <button type="button" class="btn-secundario" data-fechar-modal>Cancelar</button>
+          <button type="button" class="btn-perigo btn-cheio" id="btnConfirmarSair">Sair</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../compartilhado/pacientes_profissional.js"></script>
+    <script src="../compartilhado/profissional_dados.js"></script>
+    <script src="../compartilhado/recepcao_layout.js"></script>
+    <script src="../compartilhado/recepcao_componentes.js"></script>
+    <script src="../compartilhado/notificacoes.js"></script>
+    <script src="../compartilhado/confirmacao.js"></script>
+    <script src="../compartilhado/perfil_enfermeiro.js"></script>
+    <script src="../compartilhado/enfermagem_dados.js"></script>
+    <script src="../compartilhado/receita_visualizar.js"></script>
+    <script src="../compartilhado/prontuario_modal.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
