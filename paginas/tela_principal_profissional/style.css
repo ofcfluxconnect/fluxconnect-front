@@ -214,8 +214,10 @@ body.rv .painel-vazio {
 }
 
 @media (max-width: 1250px) {
+  /* minmax(0, ...) deixa a coluna encolher: com "1fr" puro os textos de uma linha so
+     (nome, botoes) empurravam o painel para fora da tela no celular */
   body.rv .grade-agenda {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   /* em tela estreita o paciente vem antes da lista */
@@ -438,5 +440,125 @@ body.rv .dado {
     height: 44px;
     padding: 0 10px;
     font-size: 14.5px;
+  }
+}
+
+/* =====================================================================
+   CELULAR ESTREITO (iPhone e telas abaixo de 480px)
+   Fica por ultimo para valer sobre as regras de tela baixa acima.
+   ===================================================================== */
+@media (max-width: 480px) {
+  body.rv .painel-paciente {
+    padding: 16px 14px;
+  }
+
+  body.rv .avatar-grande {
+    width: 52px;
+    height: 52px;
+    font-size: 18px;
+  }
+
+  body.rv .paciente-destaque {
+    gap: 12px;
+  }
+
+  body.rv .paciente-nome {
+    font-size: 18px;
+  }
+
+  /* os dois botoes empilham: lado a lado o texto nao cabia */
+  body.rv .painel-botoes {
+    flex-direction: column;
+  }
+
+  body.rv .painel-botoes > * {
+    flex: none;
+    width: 100%;
+    height: 46px;
+    font-size: 15px;
+  }
+
+  body.rv .grade-agenda .caixa-cabeca {
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    padding: 12px 14px;
+  }
+
+  body.rv .grade-agenda .barra-ferramentas {
+    padding: 10px 14px;
+  }
+
+  /* lista: o horario sobe para cima do cartao, que passa a usar a largura toda */
+  body.rv .lista-agenda {
+    padding: 10px 14px 14px;
+    scrollbar-gutter: auto;
+  }
+
+  body.rv .linha-agenda {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  body.rv .hora-agenda {
+    font-size: 14.5px;
+  }
+
+  /* cartao em duas linhas: avatar + nome em cima, risco e situacao embaixo */
+  body.rv .card-agenda {
+    flex-wrap: wrap;
+    gap: 4px 10px; /* a quebra invisivel conta como uma linha: 4px + 4px entre nome e situacao */
+    padding: 10px 12px;
+  }
+
+  body.rv .card-agenda .avatar-pessoa {
+    width: 38px;
+    height: 38px;
+    font-size: 13.5px;
+  }
+
+  body.rv .info-paciente {
+    flex: 1 1 0;
+  }
+
+  body.rv .nome-paciente,
+  body.rv .detalhe-paciente {
+    overflow-wrap: anywhere;
+  }
+
+  body.rv .nome-paciente {
+    font-size: 15.5px;
+  }
+
+  body.rv .detalhe-paciente {
+    font-size: 13.5px;
+  }
+
+  body.rv .seta-card {
+    order: 1;
+  }
+
+  body.rv .card-agenda .tag-risco,
+  body.rv .card-agenda .badge {
+    order: 3;
+  }
+
+  /* quebra de linha invisivel: empurra risco e situacao para a segunda linha */
+  body.rv .card-agenda:not(.card-vago)::after {
+    content: "";
+    order: 2;
+    flex: 0 0 100%;
+    height: 0;
+  }
+
+  body.rv .card-agenda .tag-risco-curta {
+    margin-left: 48px; /* alinha com o nome (avatar + espaco) */
+  }
+
+  body.rv .card-agenda .tag-risco-curta + .badge {
+    margin-left: 0;
+  }
+
+  body.rv .card-agenda .badge {
+    margin-left: 48px;
   }
 }

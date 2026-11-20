@@ -543,3 +543,58 @@
     animation: none !important;
   }
 }
+
+/* =====================================================================
+   CELULAR ESTREITO (ate 400px, ex.: iPhone SE / mini): cards de resumo
+   mais enxutos, para o rotulo ("AGUARDANDO", "FINALIZADOS") caber no card
+   ===================================================================== */
+@media (max-width: 400px) {
+  body.rv .card-stat {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  body.rv.rv .stat-icone {
+    width: 32px;
+    height: 32px;
+    margin-left: 1px;
+    box-shadow: 0 0 0 3px var(--stat-fundo);
+  }
+
+  body.rv .stat-icone svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  body.rv .stat-texto {
+    min-width: 0;
+    margin-left: 0;
+  }
+
+  body.rv .stat-rotulo {
+    font-size: 10.5px;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+  }
+
+  body.rv .stat-numero {
+    font-size: 22px;
+  }
+
+  body.rv .stat-sub {
+    font-size: 11.5px;
+  }
+
+  body.rv .titulo-pagina {
+    font-size: 21px;
+  }
+
+  body.rv .btn-topo {
+    width: 40px;
+    height: 40px;
+  }
+
+  body.rv .icones-topo {
+    gap: 6px;
+  }
+}
