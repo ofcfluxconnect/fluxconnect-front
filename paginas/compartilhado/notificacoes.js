@@ -42,6 +42,7 @@
       display: flex; align-items: flex-start; gap: 12px;
       padding: 26px 28px 20px; border-bottom: 1px solid rgba(15, 25, 35, 0.07);
     }
+    .notif-topo > div:first-child { flex: 1; min-width: 0; }
     .notif-titulo { display: flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 700; color: #1e2a3b; margin: 0; }
     .notif-contador { min-width: 24px; height: 24px; padding: 0 7px; border-radius: 12px; background: #1d64f2; color: #fff;
       font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
@@ -50,7 +51,7 @@
       cursor: pointer; padding: 4px 6px; font-family: inherit; white-space: nowrap; }
     .notif-marcar:hover { text-decoration: underline; }
     .notif-fechar {
-      width: 34px; height: 34px; border: none; background: transparent; border-radius: 50%; flex-shrink: 0;
+      width: 34px; height: 34px; margin: -4px -6px 0 0; border: none; background: transparent; border-radius: 50%; flex-shrink: 0;
       color: #8a94a6; display: flex; align-items: center; justify-content: center; cursor: pointer;
     }
     .notif-fechar:hover { background: #f0f4f8; }
@@ -82,7 +83,24 @@
     }
     .notif-vazio-titulo { font-size: 17px; font-weight: 600; color: #1e2a3b; margin: 0; }
     .notif-vazio-texto { font-size: 14.5px; color: #8a94a6; margin: 12px auto 0; max-width: 260px; line-height: 1.55; }
-    @media (max-width: 520px) { .notif-topo { flex-wrap: wrap; } .notif-marcar { margin-left: 0; order: 3; } }
+    /* celular: o X fica sempre no canto de cima; "Marcar todas" desce para uma linha propria */
+    @media (max-width: 520px) {
+      .notif-topo { flex-wrap: wrap; }
+      .notif-marcar { order: 3; flex: 0 0 100%; margin-left: 0; padding: 4px 0; text-align: left; }
+    }
+    @media (max-width: 400px) {
+      .notif-topo { gap: 6px 10px; padding: 18px 18px 14px; }
+      .notif-titulo { font-size: 18px; }
+      .notif-subtitulo { font-size: 13px; }
+      .notif-fechar { width: 40px; height: 40px; margin: -9px -10px 0 0; }
+      .notif-secao { padding: 14px 18px 8px; }
+      .notif-item { gap: 12px; padding: 14px 34px 14px 18px; }
+      .notif-icone { width: 34px; height: 34px; }
+      .notif-item-titulo { flex-wrap: wrap; gap: 4px 8px; }
+      .notif-urgente { margin-left: 0; }
+      .notif-ponto { right: 16px; top: 20px; }
+      .notif-vazio { padding: 48px 18px 56px; }
+    }
   `;
 
   var htmlVazio = `

@@ -90,8 +90,12 @@
 
     // No celular o menu lateral vira barra de abas e o botao do usuario some dela:
     // entra um botao de conta no topo, que abre o mesmo menu ("Meu perfil" / "Sair da conta").
+    // So quando a barra de abas NAO tem a aba de perfil/conta (recepcao): onde ela existe
+    // (paciente, profissional, enfermeiro) o botao repetiria o mesmo icone e o mesmo destino,
+    // e o "Sair da conta" ja esta dentro da propria tela de perfil.
     var iconesTopo = document.querySelector(".icones-topo");
-    if (iconesTopo && document.querySelector(".container-user[data-menu-usuario]")) {
+    var temAbaPerfil = !!document.querySelector('.nav-links a[href*="meu_perfil_"], .nav-links a[href*="tela_conta_paciente"]');
+    if (iconesTopo && !temAbaPerfil && document.querySelector(".container-user[data-menu-usuario]")) {
       var botaoConta = document.createElement("button");
       botaoConta.type = "button";
       botaoConta.className = "btn-topo btn-conta-celular";
